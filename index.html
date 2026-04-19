@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate Frisbee Rules — Flashcards</title>
+<title>Ultimate Frisbee Rules — Flashcards &amp; Scenarios</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -106,11 +106,49 @@
 
   .reset-btn:hover { border-color: var(--wrong); color: var(--wrong); }
 
+  /* Mode toggle */
+  .mode-toggle {
+    display: flex;
+    background: rgba(26,74,46,0.08);
+    border-radius: 100px;
+    padding: 4px;
+    width: 100%;
+    max-width: 760px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mode-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 10px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .mode-btn.active {
+    background: var(--grass);
+    color: white;
+    box-shadow: 0 2px 8px rgba(26,74,46,0.2);
+  }
+
   .categories {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin: 16px 0 20px;
+    margin: 0 0 20px;
     width: 100%;
     max-width: 760px;
     position: relative;
@@ -516,81 +554,396 @@
   .dialog-btn:hover { opacity: 0.85; }
   .dialog-btn.cancel { background: #eee; color: #333; }
   .dialog-btn.confirm { background: var(--wrong); color: white; }
+
+  /* ===== SCENARIO MODE ===== */
+  .scenarios-intro {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 760px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .scenarios-intro strong { color: var(--grass); }
+
+  .scenarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    width: 100%;
+    max-width: 760px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .scenario-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 2px 10px rgba(26,74,46,0.08);
+    border: 1px solid rgba(26,74,46,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .scenario-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(26,74,46,0.15);
+    border-color: var(--disc);
+  }
+
+  .scenario-icon { font-size: 22px; margin-bottom: 2px; }
+
+  .scenario-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--grass);
+    line-height: 1.1;
+  }
+
+  .scenario-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .scenario-rule {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--disc-dark);
+    margin-top: 4px;
+  }
+
+  .tree-viewer {
+    width: 100%;
+    max-width: 760px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tree-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .tree-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1.5px;
+    color: var(--grass);
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .tree-back-btn {
+    background: transparent;
+    border: 1.5px solid var(--grass);
+    color: var(--grass);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tree-back-btn:hover { background: var(--grass); color: white; }
+
+  .tree-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--muted);
+    align-items: center;
+  }
+
+  .crumb {
+    background: rgba(26,74,46,0.08);
+    padding: 4px 10px;
+    border-radius: 100px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .crumb:hover { background: rgba(26,74,46,0.15); }
+  .crumb.start { background: var(--grass); color: white; }
+  .crumb.start:hover { background: var(--grass-light); }
+
+  .crumb-sep { color: rgba(26,74,46,0.3); font-weight: bold; }
+
+  .tree-question {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 8px 30px rgba(26,74,46,0.1);
+    border: 1px solid rgba(26,74,46,0.08);
+    margin-bottom: 14px;
+  }
+
+  .question-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--disc-dark);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .question-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(22px, 4.5vw, 30px);
+    letter-spacing: 0.5px;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 22px;
+  }
+
+  .answers {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .answer-btn {
+    flex: 1;
+    min-width: 120px;
+    background: #f7faf7;
+    border: 1.5px solid var(--grass);
+    color: var(--grass);
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    line-height: 1.35;
+  }
+
+  .answer-btn:hover {
+    background: var(--grass);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(26,74,46,0.2);
+  }
+
+  .tree-outcome {
+    background: linear-gradient(135deg, var(--grass) 0%, var(--grass-light) 100%);
+    border-radius: 16px;
+    padding: 32px 28px;
+    color: white;
+    box-shadow: 0 10px 40px rgba(26,74,46,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tree-outcome::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(245,166,35,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .outcome-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--disc);
+    margin-bottom: 10px;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .outcome-result {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(28px, 5.5vw, 40px);
+    letter-spacing: 1px;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .outcome-detail {
+    font-size: 14px;
+    line-height: 1.55;
+    opacity: 0.92;
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .outcome-rules {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .outcome-rule {
+    background: rgba(245,166,35,0.15);
+    color: var(--disc);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border: 1px solid rgba(245,166,35,0.3);
+  }
+
+  .restart-tree-btn {
+    background: var(--disc);
+    color: var(--ink);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+  }
+
+  .restart-tree-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(245,166,35,0.4);
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-left">
-    <div class="logo">🥏 Ultimate <span>Rules</span> Cards</div>
-    <div class="subtitle">WFDF 2025–2028 · Spaced Repetition</div>
+    <div class="logo">🥏 Ultimate <span>Rules</span></div>
+    <div class="subtitle">WFDF 2025–2028 · Learn &amp; Reference</div>
   </div>
   <button class="reset-btn" onclick="confirmReset()">Reset Progress</button>
 </header>
 
-<div class="categories" id="categories"></div>
-
-<div class="session-info" id="session-info">
-  <span><strong id="due-count">0</strong> remaining in this session</span>
-  <span>🔥 <strong id="streak-days">0</strong> day streak</span>
+<div class="mode-toggle">
+  <button class="mode-btn active" id="mode-flashcards" onclick="setMode('flashcards')">🥏 Flashcards</button>
+  <button class="mode-btn" id="mode-scenarios" onclick="setMode('scenarios')">🎯 Scenarios</button>
 </div>
 
-<div class="progress-wrap">
-  <div class="progress-meta">
-    <span id="prog-text">Loading...</span>
-    <span id="prog-pct">0%</span>
+<!-- =============================== FLASHCARDS MODE =============================== -->
+<div id="flashcards-mode" style="width:100%; max-width:760px; display:contents;">
+
+  <div class="categories" id="categories"></div>
+
+  <div class="session-info" id="session-info">
+    <span><strong id="due-count">0</strong> remaining in this session</span>
+    <span>🔥 <strong id="streak-days">0</strong> day streak</span>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-</div>
 
-<div class="scene" id="scene">
-  <div class="card" id="card" onclick="flip()">
-    <div class="card-face card-front">
-      <div class="card-meta" id="front-meta"></div>
-      <div class="card-number" id="card-num"></div>
-      <div class="card-tag" id="front-tag">Category</div>
-      <div class="card-question" id="front-q">Loading...</div>
-      <div class="card-hint">Tap to reveal answer</div>
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="prog-text">Loading...</span>
+      <span id="prog-pct">0%</span>
     </div>
-    <div class="card-face card-back">
-      <div class="card-tag" id="back-tag">Category</div>
-      <div class="card-answer" id="back-a"></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="scene" id="scene">
+    <div class="card" id="card" onclick="flip()">
+      <div class="card-face card-front">
+        <div class="card-meta" id="front-meta"></div>
+        <div class="card-number" id="card-num"></div>
+        <div class="card-tag" id="front-tag">Category</div>
+        <div class="card-question" id="front-q">Loading...</div>
+        <div class="card-hint">Tap to reveal answer</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-tag" id="back-tag">Category</div>
+        <div class="card-answer" id="back-a"></div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="ratings" id="ratings">
-  <button class="rating-btn again" onclick="rate(1)">
-    <span class="emoji">🔁</span><span class="label">Again</span>
-    <span class="interval" id="int-again">&lt;1m</span>
-  </button>
-  <button class="rating-btn hard" onclick="rate(2)">
-    <span class="emoji">😅</span><span class="label">Hard</span>
-    <span class="interval" id="int-hard">6m</span>
-  </button>
-  <button class="rating-btn good" onclick="rate(3)">
-    <span class="emoji">👍</span><span class="label">Good</span>
-    <span class="interval" id="int-good">1d</span>
-  </button>
-  <button class="rating-btn easy" onclick="rate(4)">
-    <span class="emoji">⚡</span><span class="label">Easy</span>
-    <span class="interval" id="int-easy">4d</span>
-  </button>
-</div>
+  <div class="ratings" id="ratings">
+    <button class="rating-btn again" onclick="rate(1)">
+      <span class="emoji">🔁</span><span class="label">Again</span>
+      <span class="interval" id="int-again">&lt;1m</span>
+    </button>
+    <button class="rating-btn hard" onclick="rate(2)">
+      <span class="emoji">😅</span><span class="label">Hard</span>
+      <span class="interval" id="int-hard">6m</span>
+    </button>
+    <button class="rating-btn good" onclick="rate(3)">
+      <span class="emoji">👍</span><span class="label">Good</span>
+      <span class="interval" id="int-good">1d</span>
+    </button>
+    <button class="rating-btn easy" onclick="rate(4)">
+      <span class="emoji">⚡</span><span class="label">Easy</span>
+      <span class="interval" id="int-easy">4d</span>
+    </button>
+  </div>
 
-<div class="stats">
-  <div class="stat"><div class="stat-val" id="stat-new">0</div><div class="stat-label">New</div></div>
-  <div class="stat"><div class="stat-val" id="stat-learning">0</div><div class="stat-label">Learning</div></div>
-  <div class="stat"><div class="stat-val" id="stat-review">0</div><div class="stat-label">Reviewing</div></div>
-  <div class="stat"><div class="stat-val" id="stat-mastered">0</div><div class="stat-label">Mastered</div></div>
-</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-val" id="stat-new">0</div><div class="stat-label">New</div></div>
+    <div class="stat"><div class="stat-val" id="stat-learning">0</div><div class="stat-label">Learning</div></div>
+    <div class="stat"><div class="stat-val" id="stat-review">0</div><div class="stat-label">Reviewing</div></div>
+    <div class="stat"><div class="stat-val" id="stat-mastered">0</div><div class="stat-label">Mastered</div></div>
+  </div>
 
-<div class="complete-screen" id="complete">
-  <span class="complete-disc">🥏</span>
-  <div class="complete-title">All Done!</div>
-  <div class="complete-sub" id="complete-sub">No more cards due right now. Come back later for your scheduled reviews.</div>
-  <button class="restart-btn" onclick="startSession()">Check Again</button>
+  <div class="complete-screen" id="complete">
+    <span class="complete-disc">🥏</span>
+    <div class="complete-title">All Done!</div>
+    <div class="complete-sub" id="complete-sub">No more cards due right now. Come back later for your scheduled reviews.</div>
+    <button class="restart-btn" onclick="startSession()">Check Again</button>
+  </div>
+
 </div>
+<!-- /flashcards-mode -->
+
+<!-- =============================== SCENARIOS MODE =============================== -->
+<div id="scenarios-mode" style="display:none; width:100%; max-width:760px; position:relative; z-index:1;">
+
+  <div id="scenario-intro">
+    <div class="scenarios-intro">
+      <strong>On-field decision trees.</strong> Pick a scenario, then tap through the questions to find the correct ruling. Based on the official WFDF decision diagrams.
+    </div>
+    <div class="scenarios-grid" id="scenarios-grid"></div>
+  </div>
+
+  <div class="tree-viewer" id="tree-viewer" style="display:none;">
+    <div class="tree-header">
+      <div class="tree-title" id="tree-title"></div>
+      <button class="tree-back-btn" onclick="exitTree()">← All Scenarios</button>
+    </div>
+    <div class="tree-breadcrumbs" id="tree-breadcrumbs"></div>
+    <div id="tree-body"></div>
+  </div>
+
+</div>
+<!-- /scenarios-mode -->
 
 <div class="dialog-overlay" id="reset-dialog">
   <div class="dialog">
@@ -606,144 +959,424 @@
 <script>
 /* ========== FLASHCARD DATA ========== */
 const ALL_CARDS = [
-  // Spirit of the Game
-  { id: "spirit-1", cat: "Spirit", q: "What is the core principle of Ultimate's self-officiation?", a: `The <strong>Spirit of the Game</strong> places the responsibility for fair play on every player. All players are responsible for administering and adhering to the rules themselves. <span class="rule-ref">Rule 1.1</span>` },
-  { id: "spirit-2", cat: "Spirit", q: "What happens when players cannot agree on what occurred in a play?", a: `The disc must be returned to the <strong>last non-disputed thrower</strong>. <span class="rule-ref">Rule 1.12</span>` },
-  { id: "spirit-3", cat: "Spirit", q: "Name three clear violations of Spirit of the Game.", a: `Violations include: <strong>dangerous play</strong>, intentional fouling, taunting or intimidating opponents, celebrating disrespectfully, making retaliatory calls, calling for a pass from an opposition player, and other win-at-all-costs behaviour. <span class="rule-ref">Rule 1.6</span>` },
-  { id: "spirit-4", cat: "Spirit", q: "Who calls a Spirit Stoppage and why?", a: `<strong>Teams</strong> may call a Spirit Stoppage to address Spirit of the Game issues, as appropriate. It is a team responsibility, not only the captains'. <span class="rule-ref">Rule 1.7.4</span>` },
-  { id: "spirit-5", cat: "Spirit", q: "When should a call be made?", a: `Only where a breach is <strong>significant enough to make a difference to the outcome of the action</strong>, or where a <strong>player's safety is at risk</strong>. <span class="rule-ref">Rule 1.3.10</span>` },
-  { id: "spirit-6", cat: "Spirit", q: "Who is responsible for teaching their team the rules and good Spirit?", a: `<strong>Teams</strong> are guardians of the Spirit of the Game. They must take responsibility for teaching their players the rules, discipline team-mates for poor Spirit, and provide constructive feedback to other teams. <span class="rule-ref">Rule 1.7</span>` },
-  { id: "spirit-7", cat: "Spirit", q: "Who should discuss calls on the field?", a: `Calls should be discussed by <strong>players directly involved in the play</strong>, and by players who had the best perspective. Non-players, apart from the captains, should refrain from getting involved. <span class="rule-ref">Rules 1.10, 1.10.2</span>` },
-  { id: "spirit-8", cat: "Spirit", q: "What happens if there is a deliberate or egregious breach of rules or Spirit?", a: `The <strong>captains</strong> should discuss this and determine an appropriate outcome, even if that outcome is not in accordance with a specific rule. <span class="rule-ref">Rule 1.2.1</span>` },
+  // Spirit
+  { id:"spirit-1", cat:"Spirit", q:"What is the core principle of Ultimate's self-officiation?", a:`The <strong>Spirit of the Game</strong> places the responsibility for fair play on every player. All players are responsible for administering and adhering to the rules themselves. <span class="rule-ref">Rule 1.1</span>` },
+  { id:"spirit-2", cat:"Spirit", q:"What happens when players cannot agree on what occurred in a play?", a:`The disc must be returned to the <strong>last non-disputed thrower</strong>. <span class="rule-ref">Rule 1.12</span>` },
+  { id:"spirit-3", cat:"Spirit", q:"Name three clear violations of Spirit of the Game.", a:`Violations include: <strong>dangerous play</strong>, intentional fouling, taunting or intimidating opponents, celebrating disrespectfully, making retaliatory calls, calling for a pass from an opposition player, and other win-at-all-costs behaviour. <span class="rule-ref">Rule 1.6</span>` },
+  { id:"spirit-4", cat:"Spirit", q:"Who calls a Spirit Stoppage and why?", a:`<strong>Teams</strong> may call a Spirit Stoppage to address Spirit of the Game issues, as appropriate. It is a team responsibility, not only the captains'. <span class="rule-ref">Rule 1.7.4</span>` },
+  { id:"spirit-5", cat:"Spirit", q:"When should a call be made?", a:`Only where a breach is <strong>significant enough to make a difference to the outcome of the action</strong>, or where a <strong>player's safety is at risk</strong>. <span class="rule-ref">Rule 1.3.10</span>` },
+  { id:"spirit-6", cat:"Spirit", q:"Who is responsible for teaching their team the rules and good Spirit?", a:`<strong>Teams</strong> are guardians of the Spirit of the Game. They must take responsibility for teaching their players the rules, discipline team-mates for poor Spirit, and provide constructive feedback to other teams. <span class="rule-ref">Rule 1.7</span>` },
+  { id:"spirit-7", cat:"Spirit", q:"Who should discuss calls on the field?", a:`Calls should be discussed by <strong>players directly involved in the play</strong>, and by players who had the best perspective. Non-players, apart from the captains, should refrain from getting involved. <span class="rule-ref">Rules 1.10, 1.10.2</span>` },
+  { id:"spirit-8", cat:"Spirit", q:"What happens if there is a deliberate or egregious breach of rules or Spirit?", a:`The <strong>captains</strong> should discuss this and determine an appropriate outcome, even if that outcome is not in accordance with a specific rule. <span class="rule-ref">Rule 1.2.1</span>` },
 
   // Field
-  { id: "field-1", cat: "Field", q: "What are the dimensions of a standard Ultimate playing field?", a: `The field is <strong>100m long × 37m wide</strong>, with two <strong>18m deep end zones</strong> and a <strong>64m central zone</strong>. <span class="rule-ref">Rule 2 / Figure 1</span>` },
-  { id: "field-2", cat: "Field", q: "Are the perimeter lines part of the playing field?", a: `<strong>No.</strong> The perimeter lines are <em>not</em> part of the playing field — they are out-of-bounds. <span class="rule-ref">Rule 2.3</span>` },
-  { id: "field-3", cat: "Field", q: "Are the goal lines part of the central zone or the end zones?", a: `The goal lines are part of the <strong>central zone</strong>, not the end zones. <span class="rule-ref">Rule 2.4</span>` },
-  { id: "field-4", cat: "Field", q: "What is a brick mark and where is it located?", a: `The intersection of two crossed <strong>1-metre lines</strong> in the central zone, located a distance equal to the <strong>length of the end zone</strong> away from each goal line, <strong>midway between the sidelines</strong>. <span class="rule-ref">Rule 2.5</span>` },
-  { id: "field-5", cat: "Field", q: "What marks the corners of the central zone and end zones?", a: `<strong>Eight brightly-coloured, flexible objects</strong> (such as plastic cones). <span class="rule-ref">Rule 2.6</span>` },
-  { id: "field-6", cat: "Field", q: "When can a player or thrower call 'Violation' due to obstructions near the field?", a: `If play is obstructed by non-players or objects within <strong>3 metres of the perimeter line</strong>, any obstructed player or thrower in possession may call "Violation". <span class="rule-ref">Rule 2.7</span>` },
+  { id:"field-1", cat:"Field", q:"What are the dimensions of a standard Ultimate playing field?", a:`The field is <strong>100m long × 37m wide</strong>, with two <strong>18m deep end zones</strong> and a <strong>64m central zone</strong>. <span class="rule-ref">Rule 2 / Figure 1</span>` },
+  { id:"field-2", cat:"Field", q:"Are the perimeter lines part of the playing field?", a:`<strong>No.</strong> The perimeter lines are <em>not</em> part of the playing field — they are out-of-bounds. <span class="rule-ref">Rule 2.3</span>` },
+  { id:"field-3", cat:"Field", q:"Are the goal lines part of the central zone or the end zones?", a:`The goal lines are part of the <strong>central zone</strong>, not the end zones. <span class="rule-ref">Rule 2.4</span>` },
+  { id:"field-4", cat:"Field", q:"What is a brick mark and where is it located?", a:`The intersection of two crossed <strong>1-metre lines</strong> in the central zone, located a distance equal to the <strong>length of the end zone</strong> away from each goal line, <strong>midway between the sidelines</strong>. <span class="rule-ref">Rule 2.5</span>` },
+  { id:"field-5", cat:"Field", q:"What marks the corners of the central zone and end zones?", a:`<strong>Eight brightly-coloured, flexible objects</strong> (such as plastic cones). <span class="rule-ref">Rule 2.6</span>` },
+  { id:"field-6", cat:"Field", q:"When can a player or thrower call 'Violation' due to obstructions near the field?", a:`If play is obstructed by non-players or objects within <strong>3 metres of the perimeter line</strong>, any obstructed player or thrower in possession may call "Violation". <span class="rule-ref">Rule 2.7</span>` },
 
   // The Pull
-  { id: "pull-1", cat: "The Pull", q: "How does play start at the beginning of a half or after a goal?", a: `Play starts with a <strong>pull</strong> — a throw by the <strong>defensive team</strong> to the offensive team. The pull is <strong>not</strong> considered a legal pass. <span class="rule-ref">Rules 7.1, Definitions</span>` },
-  { id: "pull-2", cat: "The Pull", q: "What must happen before a pull can be released?", a: `Both teams must signal readiness: the <strong>puller</strong> and <strong>a player on offence</strong> each raise a hand above their head. <span class="rule-ref">Rule 7.2</span>` },
-  { id: "pull-3", cat: "The Pull", q: "What must offensive players do after signalling readiness, before the pull is released?", a: `All offensive players must <strong>stand with one foot on their defending goal line</strong> without changing location relative to one another until the pull is released. <span class="rule-ref">Rule 7.3</span>` },
-  { id: "pull-4", cat: "The Pull", q: "What must defensive players do after signalling readiness, before the pull is released?", a: `All defensive players must keep their feet <strong>entirely behind the vertical plane of the goal line</strong> until the pull is released. <span class="rule-ref">Rule 7.4</span>` },
-  { id: "pull-5", cat: "The Pull", q: "What is a 'false start' on the pull and what is the consequence?", a: `<strong>Offence</strong> breaching their goal line positioning (Rule 7.3) is a <strong>false start</strong>. The defence calls it; the thrower must establish a pivot point and play restarts as if a time-out was called at that location. <span class="rule-ref">Rules 7.5, 7.5.1</span>` },
-  { id: "pull-6", cat: "The Pull", q: "What is 'offside' on the pull and what is the consequence?", a: `<strong>Defence</strong> having feet not entirely behind the goal line before the pull is released (Rule 7.4) is <strong>offside</strong>. The offence calls it; they must let the disc hit the ground untouched, then play resumes as if a <strong>brick</strong> was called (no check needed). <span class="rule-ref">Rules 7.5, 7.5.2</span>` },
-  { id: "pull-7", cat: "The Pull", q: "What is a 'dropped pull' and what results from it?", a: `If an offensive player touches the disc <strong>before it hits the ground</strong> and the team <strong>fails to subsequently establish possession</strong>, it is a dropped pull — a <strong>turnover</strong>. <span class="rule-ref">Rule 7.8</span>` },
-  { id: "pull-8", cat: "The Pull", q: "How does a player signal they want to use the brick option on the pull?", a: `Any offensive player fully extends <strong>one arm overhead</strong> and calls <strong>"Brick"</strong>. This must be signalled <strong>before the disc is picked up</strong>. <span class="rule-ref">Rule 7.12</span>` },
-  { id: "pull-9", cat: "The Pull", q: "Where does the thrower pivot if the pull lands in-bounds and stays in-bounds?", a: `The thrower must establish a pivot point <strong>where the disc stops</strong>, even if that is in their defending end zone. <span class="rule-ref">Rule 7.10</span>` },
+  { id:"pull-1", cat:"The Pull", q:"How does play start at the beginning of a half or after a goal?", a:`Play starts with a <strong>pull</strong> — a throw by the <strong>defensive team</strong> to the offensive team. The pull is <strong>not</strong> considered a legal pass. <span class="rule-ref">Rules 7.1, Definitions</span>` },
+  { id:"pull-2", cat:"The Pull", q:"What must happen before a pull can be released?", a:`Both teams must signal readiness: the <strong>puller</strong> and <strong>a player on offence</strong> each raise a hand above their head. <span class="rule-ref">Rule 7.2</span>` },
+  { id:"pull-3", cat:"The Pull", q:"What must offensive players do after signalling readiness, before the pull is released?", a:`All offensive players must <strong>stand with one foot on their defending goal line</strong> without changing location relative to one another until the pull is released. <span class="rule-ref">Rule 7.3</span>` },
+  { id:"pull-4", cat:"The Pull", q:"What must defensive players do after signalling readiness, before the pull is released?", a:`All defensive players must keep their feet <strong>entirely behind the vertical plane of the goal line</strong> until the pull is released. <span class="rule-ref">Rule 7.4</span>` },
+  { id:"pull-5", cat:"The Pull", q:"What is a 'false start' on the pull and what is the consequence?", a:`<strong>Offence</strong> breaching their goal line positioning (Rule 7.3) is a <strong>false start</strong>. The defence calls it; the thrower must establish a pivot point and play restarts as if a time-out was called at that location. <span class="rule-ref">Rules 7.5, 7.5.1</span>` },
+  { id:"pull-6", cat:"The Pull", q:"What is 'offside' on the pull and what is the consequence?", a:`<strong>Defence</strong> having feet not entirely behind the goal line before the pull is released (Rule 7.4) is <strong>offside</strong>. The offence calls it; they must let the disc hit the ground untouched, then play resumes as if a <strong>brick</strong> was called (no check needed). <span class="rule-ref">Rules 7.5, 7.5.2</span>` },
+  { id:"pull-7", cat:"The Pull", q:"What is a 'dropped pull' and what results from it?", a:`If an offensive player touches the disc <strong>before it hits the ground</strong> and the team <strong>fails to subsequently establish possession</strong>, it is a dropped pull — a <strong>turnover</strong>. <span class="rule-ref">Rule 7.8</span>` },
+  { id:"pull-8", cat:"The Pull", q:"How does a player signal they want to use the brick option on the pull?", a:`Any offensive player fully extends <strong>one arm overhead</strong> and calls <strong>"Brick"</strong>. This must be signalled <strong>before the disc is picked up</strong>. <span class="rule-ref">Rule 7.12</span>` },
+  { id:"pull-9", cat:"The Pull", q:"Where does the thrower pivot if the pull lands in-bounds and stays in-bounds?", a:`The thrower must establish a pivot point <strong>where the disc stops</strong>, even if that is in their defending end zone. <span class="rule-ref">Rule 7.10</span>` },
 
   // State of Play
-  { id: "play-1", cat: "State of Play", q: "When is play considered 'dead'?", a: `Play is dead: (1) after a point starts until the pull is released; (2) while the disc is being carried to the pivot location; (3) after a call or stoppage until the disc is checked in; (4) after a disc hits the ground until possession is established. <span class="rule-ref">Rule 8.1</span>` },
-  { id: "play-2", cat: "State of Play", q: "After a turnover in the central zone, how long does the thrower have to establish a pivot point?", a: `Within <strong>10 seconds</strong> of the disc coming to rest. If the disc is in an end zone, the limit is <strong>20 seconds</strong>. <span class="rule-ref">Rule 8.5.1</span>` },
-  { id: "play-3", cat: "State of Play", q: "What must an offensive player do to retrieve the disc after a turnover?", a: `Move at <strong>walking pace or faster</strong> to directly retrieve the disc and establish a pivot point. <span class="rule-ref">Rule 8.5</span>` },
-  { id: "play-4", cat: "State of Play", q: "Can the thrower transfer possession to another player during dead play?", a: `<strong>No.</strong> The thrower may not transfer possession of the disc during dead play to another player. <span class="rule-ref">Rule 8.3</span>` },
-  { id: "play-5", cat: "State of Play", q: "What happens if players disagree on the correct pivot location?", a: `The <strong>relevant midpoint</strong> between the two proposed pivot locations must be used. <span class="rule-ref">Rule 8.5.4</span>` },
+  { id:"play-1", cat:"State of Play", q:"When is play considered 'dead'?", a:`Play is dead: (1) after a point starts until the pull is released; (2) while the disc is being carried to the pivot location; (3) after a call or stoppage until the disc is checked in; (4) after a disc hits the ground until possession is established. <span class="rule-ref">Rule 8.1</span>` },
+  { id:"play-2", cat:"State of Play", q:"After a turnover in the central zone, how long does the thrower have to establish a pivot point?", a:`Within <strong>10 seconds</strong> of the disc coming to rest. If the disc is in an end zone, the limit is <strong>20 seconds</strong>. <span class="rule-ref">Rule 8.5.1</span>` },
+  { id:"play-3", cat:"State of Play", q:"What must an offensive player do to retrieve the disc after a turnover?", a:`Move at <strong>walking pace or faster</strong> to directly retrieve the disc and establish a pivot point. <span class="rule-ref">Rule 8.5</span>` },
+  { id:"play-4", cat:"State of Play", q:"Can the thrower transfer possession to another player during dead play?", a:`<strong>No.</strong> The thrower may not transfer possession of the disc during dead play to another player. <span class="rule-ref">Rule 8.3</span>` },
+  { id:"play-5", cat:"State of Play", q:"What happens if players disagree on the correct pivot location?", a:`The <strong>relevant midpoint</strong> between the two proposed pivot locations must be used. <span class="rule-ref">Rule 8.5.4</span>` },
 
   // Stall Count
-  { id: "stall-1", cat: "Stall Count", q: "How is the stall count administered?", a: `The marker announces <strong>"Stalling"</strong> then counts from <strong>1 to 10</strong>. The interval between the <em>start</em> of each number must be at least <strong>one second</strong>. <span class="rule-ref">Rule 9.1</span>` },
-  { id: "stall-2", cat: "Stall Count", q: "What are the three conditions that must be met for a marker to start or continue a stall count?", a: `(1) Play is <strong>live</strong> (or pivot established after turnover); (2) marker is within <strong>3 metres</strong> of the thrower's pivot point; (3) <strong>all defenders are legally positioned</strong>. <span class="rule-ref">Rule 9.3</span>` },
-  { id: "stall-3", cat: "Stall Count", q: "At what count does the stall count restart after a contested stall-out?", a: `The stall count restarts at <strong>"Stalling 8"</strong>. <span class="rule-ref">Rule 9.5.3</span>` },
-  { id: "stall-4", cat: "Stall Count", q: "After an accepted breach by the defence, at what count does the stall restart?", a: `The stall count restarts at <strong>"Stalling 1"</strong>. <span class="rule-ref">Rule 9.5.1</span>` },
-  { id: "stall-5", cat: "Stall Count", q: "After an accepted breach by the offence, at what count does the stall restart?", a: `At a maximum of <strong>9</strong> — meaning "Stalling (last number uttered + 1)" or "Stalling 9", whichever is lower. <span class="rule-ref">Rules 9.5.2, 9.6.1</span>` },
-  { id: "stall-6", cat: "Stall Count", q: "After most calls (e.g. pick), what is the maximum stall count resumption?", a: `Maximum of <strong>6</strong> — the stall count resumes at "Stalling (last number uttered + 1)" or "Stalling 6", whichever is lower. <span class="rule-ref">Rules 9.5.5, 9.6.1</span>` },
-  { id: "stall-7", cat: "Stall Count", q: "What happens if the marker moves beyond 3 metres or a different player becomes the marker?", a: `The stall count must be <strong>restarted at "Stalling 1"</strong>. <span class="rule-ref">Rule 9.4</span>` },
+  { id:"stall-1", cat:"Stall Count", q:"How is the stall count administered?", a:`The marker announces <strong>"Stalling"</strong> then counts from <strong>1 to 10</strong>. The interval between the <em>start</em> of each number must be at least <strong>one second</strong>. <span class="rule-ref">Rule 9.1</span>` },
+  { id:"stall-2", cat:"Stall Count", q:"What are the three conditions that must be met for a marker to start or continue a stall count?", a:`(1) Play is <strong>live</strong> (or pivot established after turnover); (2) marker is within <strong>3 metres</strong> of the thrower's pivot point; (3) <strong>all defenders are legally positioned</strong>. <span class="rule-ref">Rule 9.3</span>` },
+  { id:"stall-3", cat:"Stall Count", q:"At what count does the stall count restart after a contested stall-out?", a:`The stall count restarts at <strong>"Stalling 8"</strong>. <span class="rule-ref">Rule 9.5.3</span>` },
+  { id:"stall-4", cat:"Stall Count", q:"After an accepted breach by the defence, at what count does the stall restart?", a:`The stall count restarts at <strong>"Stalling 1"</strong>. <span class="rule-ref">Rule 9.5.1</span>` },
+  { id:"stall-5", cat:"Stall Count", q:"After an accepted breach by the offence, at what count does the stall restart?", a:`At a maximum of <strong>9</strong> — meaning "Stalling (last number uttered + 1)" or "Stalling 9", whichever is lower. <span class="rule-ref">Rules 9.5.2, 9.6.1</span>` },
+  { id:"stall-6", cat:"Stall Count", q:"After most calls (e.g. pick), what is the maximum stall count resumption?", a:`Maximum of <strong>6</strong> — the stall count resumes at "Stalling (last number uttered + 1)" or "Stalling 6", whichever is lower. <span class="rule-ref">Rules 9.5.5, 9.6.1</span>` },
+  { id:"stall-7", cat:"Stall Count", q:"What happens if the marker moves beyond 3 metres or a different player becomes the marker?", a:`The stall count must be <strong>restarted at "Stalling 1"</strong>. <span class="rule-ref">Rule 9.4</span>` },
 
   // The Check
-  { id: "check-1", cat: "The Check", q: "When must play be restarted with a check?", a: `Whenever play stops for a foul, violation, contested turnover, specified turnover, contested goal, stoppage, discussion, or at the completion of a time-out. The check may only be <strong>delayed for discussion of a call</strong>. <span class="rule-ref">Rule 10.1</span>` },
-  { id: "check-2", cat: "The Check", q: "How is play restarted when the thrower has the disc and a defender IS within reach?", a: `The <strong>defender must touch the disc</strong>. <span class="rule-ref">Rule 10.6.1.1</span>` },
-  { id: "check-3", cat: "The Check", q: "How is play restarted when the thrower has the disc and NO defender is within reach?", a: `The <strong>thrower must touch the disc to the ground</strong> and may call <strong>"Disc In"</strong>. <span class="rule-ref">Rule 10.6.1.2</span>` },
-  { id: "check-4", cat: "The Check", q: "How is play restarted when the disc is on the ground?", a: `The <strong>defender nearest to the disc</strong> must call <strong>"Disc In"</strong>. <span class="rule-ref">Rule 10.6.2</span>` },
-  { id: "check-5", cat: "The Check", q: "What happens if there is unnecessary delay in checking the disc in?", a: `The opposition may give a <strong>"Delay of Game"</strong> warning. If delay continues, the warning team may call <strong>"Disc In"</strong> without opposition verification — but only if their own team is stationary and correctly positioned. <span class="rule-ref">Rule 10.5</span>` },
-  { id: "check-6", cat: "The Check", q: "What must happen before a check is performed?", a: `The person checking the disc in, and the nearest opposition player, must <strong>verify that their own team-mates are ready and correctly positioned</strong> (as per 10.2). <span class="rule-ref">Rule 10.4</span>` },
-  { id: "check-7", cat: "The Check", q: "Where must players be positioned before a check (when no pass was thrown)?", a: `All players must return to the <strong>location they held when the call was made</strong>, and remain stationary until the disc is checked in. <span class="rule-ref">Rules 10.2.1, 10.2.3</span>` },
+  { id:"check-1", cat:"The Check", q:"When must play be restarted with a check?", a:`Whenever play stops for a foul, violation, contested turnover, specified turnover, contested goal, stoppage, discussion, or at the completion of a time-out. The check may only be <strong>delayed for discussion of a call</strong>. <span class="rule-ref">Rule 10.1</span>` },
+  { id:"check-2", cat:"The Check", q:"How is play restarted when the thrower has the disc and a defender IS within reach?", a:`The <strong>defender must touch the disc</strong>. <span class="rule-ref">Rule 10.6.1.1</span>` },
+  { id:"check-3", cat:"The Check", q:"How is play restarted when the thrower has the disc and NO defender is within reach?", a:`The <strong>thrower must touch the disc to the ground</strong> and may call <strong>"Disc In"</strong>. <span class="rule-ref">Rule 10.6.1.2</span>` },
+  { id:"check-4", cat:"The Check", q:"How is play restarted when the disc is on the ground?", a:`The <strong>defender nearest to the disc</strong> must call <strong>"Disc In"</strong>. <span class="rule-ref">Rule 10.6.2</span>` },
+  { id:"check-5", cat:"The Check", q:"What happens if there is unnecessary delay in checking the disc in?", a:`The opposition may give a <strong>"Delay of Game"</strong> warning. If delay continues, the warning team may call <strong>"Disc In"</strong> without opposition verification — but only if their own team is stationary and correctly positioned. <span class="rule-ref">Rule 10.5</span>` },
+  { id:"check-6", cat:"The Check", q:"What must happen before a check is performed?", a:`The person checking the disc in, and the nearest opposition player, must <strong>verify that their own team-mates are ready and correctly positioned</strong> (as per 10.2). <span class="rule-ref">Rule 10.4</span>` },
+  { id:"check-7", cat:"The Check", q:"Where must players be positioned before a check (when no pass was thrown)?", a:`All players must return to the <strong>location they held when the call was made</strong>, and remain stationary until the disc is checked in. <span class="rule-ref">Rules 10.2.1, 10.2.3</span>` },
 
   // Out of Bounds
-  { id: "oob-1", cat: "Out-of-Bounds", q: "When does a disc become out-of-bounds?", a: `When it first contacts the <strong>out-of-bounds area</strong> or contacts an <strong>out-of-bounds offensive player</strong>. A disc caught by a player has the same status as that player. <span class="rule-ref">Rule 11.6</span>` },
-  { id: "oob-2", cat: "Out-of-Bounds", q: "Are defensive players ever considered out-of-bounds?", a: `<strong>No.</strong> Defensive players are <em>always</em> considered in-bounds. <span class="rule-ref">Rule 11.2</span>` },
-  { id: "oob-3", cat: "Out-of-Bounds", q: "Can a disc fly outside the perimeter and return as a valid play?", a: `<strong>Yes.</strong> The disc may fly outside a perimeter line and return to the playing field, and players may go out-of-bounds to make a play on it. <span class="rule-ref">Rule 11.7</span>` },
-  { id: "oob-4", cat: "Out-of-Bounds", q: "What happens if two offensive players simultaneously catch the disc and one is out-of-bounds?", a: `The disc is <strong>out-of-bounds</strong>. <span class="rule-ref">Rule 11.6</span>` },
-  { id: "oob-5", cat: "Out-of-Bounds", q: "When is an out-of-bounds catch a turnover with no catch deemed to have occurred?", a: `(1) Any part of an offensive receiver is out-of-bounds <strong>when they contact the disc</strong>; or (2) after catching while airborne, the receiver's <strong>first contact is out-of-bounds</strong> while still holding the disc. <span class="rule-ref">Rule 11.4</span>` },
-  { id: "oob-6", cat: "Out-of-Bounds", q: "If the disc is OB more than 3 metres from the pivot location, who may retrieve it?", a: `<strong>Non-players</strong> may retrieve the disc. However, the <strong>thrower must carry the disc the last 3 metres</strong> to the playing field themselves. <span class="rule-ref">Rule 11.9</span>` },
-  { id: "oob-7", cat: "Out-of-Bounds", q: "Does contact between players transfer in/out-of-bounds status?", a: `<strong>No.</strong> Contact between players does not confer the state of being in- or out-of-bounds from one player to another. <span class="rule-ref">Rule 11.3.4</span>` },
+  { id:"oob-1", cat:"Out-of-Bounds", q:"When does a disc become out-of-bounds?", a:`When it first contacts the <strong>out-of-bounds area</strong> or contacts an <strong>out-of-bounds offensive player</strong>. A disc caught by a player has the same status as that player. <span class="rule-ref">Rule 11.6</span>` },
+  { id:"oob-2", cat:"Out-of-Bounds", q:"Are defensive players ever considered out-of-bounds?", a:`<strong>No.</strong> Defensive players are <em>always</em> considered in-bounds. <span class="rule-ref">Rule 11.2</span>` },
+  { id:"oob-3", cat:"Out-of-Bounds", q:"Can a disc fly outside the perimeter and return as a valid play?", a:`<strong>Yes.</strong> The disc may fly outside a perimeter line and return to the playing field, and players may go out-of-bounds to make a play on it. <span class="rule-ref">Rule 11.7</span>` },
+  { id:"oob-4", cat:"Out-of-Bounds", q:"What happens if two offensive players simultaneously catch the disc and one is out-of-bounds?", a:`The disc is <strong>out-of-bounds</strong>. <span class="rule-ref">Rule 11.6</span>` },
+  { id:"oob-5", cat:"Out-of-Bounds", q:"When is an out-of-bounds catch a turnover with no catch deemed to have occurred?", a:`(1) Any part of an offensive receiver is out-of-bounds <strong>when they contact the disc</strong>; or (2) after catching while airborne, the receiver's <strong>first contact is out-of-bounds</strong> while still holding the disc. <span class="rule-ref">Rule 11.4</span>` },
+  { id:"oob-6", cat:"Out-of-Bounds", q:"If the disc is OB more than 3 metres from the pivot location, who may retrieve it?", a:`<strong>Non-players</strong> may retrieve the disc. However, the <strong>thrower must carry the disc the last 3 metres</strong> to the playing field themselves. <span class="rule-ref">Rule 11.9</span>` },
+  { id:"oob-7", cat:"Out-of-Bounds", q:"Does contact between players transfer in/out-of-bounds status?", a:`<strong>No.</strong> Contact between players does not confer the state of being in- or out-of-bounds from one player to another. <span class="rule-ref">Rule 11.3.4</span>` },
 
-  // Receivers & Positioning
-  { id: "pos-1", cat: "Positioning", q: "What is the definition of a 'catch'?", a: `A catch occurs when a player has a <strong>non-spinning disc trapped between at least two body parts</strong>. A catch can enable a player to establish possession. <span class="rule-ref">Rule 12.1</span>` },
-  { id: "pos-2", cat: "Positioning", q: "If offensive and defensive players catch the disc simultaneously, who retains possession?", a: `The <strong>offence retains possession</strong>. <span class="rule-ref">Rule 12.3</span>` },
-  { id: "pos-3", cat: "Positioning", q: "Is 'making a play for the disc' a valid excuse for initiating contact?", a: `<strong>No.</strong> "Making a play for the disc" is explicitly <em>not</em> a valid excuse for initiating contact with other players. <span class="rule-ref">Rule 12.6.1</span>` },
-  { id: "pos-4", cat: "Positioning", q: "Who is deemed to have initiated contact when it is unclear?", a: `If it is unclear and one player <strong>dived, leaped or jumped</strong> away from their position, <strong>that player</strong> is deemed to have initiated contact. <span class="rule-ref">Rule 12.7.3</span>` },
-  { id: "pos-5", cat: "Positioning", q: "May players use extended arms or legs to obstruct opponents?", a: `<strong>No.</strong> Players may not use extended arms or legs to obstruct the movement of opposing players. <span class="rule-ref">Rule 12.9</span>` },
+  // Positioning
+  { id:"pos-1", cat:"Positioning", q:"What is the definition of a 'catch'?", a:`A catch occurs when a player has a <strong>non-spinning disc trapped between at least two body parts</strong>. A catch can enable a player to establish possession. <span class="rule-ref">Rule 12.1</span>` },
+  { id:"pos-2", cat:"Positioning", q:"If offensive and defensive players catch the disc simultaneously, who retains possession?", a:`The <strong>offence retains possession</strong>. <span class="rule-ref">Rule 12.3</span>` },
+  { id:"pos-3", cat:"Positioning", q:"Is 'making a play for the disc' a valid excuse for initiating contact?", a:`<strong>No.</strong> "Making a play for the disc" is explicitly <em>not</em> a valid excuse for initiating contact with other players. <span class="rule-ref">Rule 12.6.1</span>` },
+  { id:"pos-4", cat:"Positioning", q:"Who is deemed to have initiated contact when it is unclear?", a:`If it is unclear and one player <strong>dived, leaped or jumped</strong> away from their position, <strong>that player</strong> is deemed to have initiated contact. <span class="rule-ref">Rule 12.7.3</span>` },
+  { id:"pos-5", cat:"Positioning", q:"May players use extended arms or legs to obstruct opponents?", a:`<strong>No.</strong> Players may not use extended arms or legs to obstruct the movement of opposing players. <span class="rule-ref">Rule 12.9</span>` },
 
   // Scoring
-  { id: "score-1", cat: "Scoring", q: "How many goals are needed to win a game?", a: `The first team to score <strong>15 goals</strong> wins. Half-time occurs when a team first scores <strong>8 goals</strong>. <span class="rule-ref">Rules 4.2, 4.3</span>` },
-  { id: "score-2", cat: "Scoring", q: "What are the exact conditions for a legal goal?", a: `An in-bounds player catches a legal pass where <strong>all ground contacts are entirely within their attacking end zone</strong>, they <strong>subsequently establish possession</strong>, and <strong>maintain the catch throughout all ground contact</strong> related to that catch. <span class="rule-ref">Rule 14.1</span>` },
-  { id: "score-3", cat: "Scoring", q: "What happens if a player in possession ends up in their attacking end zone but didn't score?", a: `The player must establish a pivot point at the <strong>nearest location on the goal line</strong>. <span class="rule-ref">Rule 14.3</span>` },
-  { id: "score-4", cat: "Scoring", q: "When is the time of a goal deemed to have been scored?", a: `When the player <strong>established possession</strong> of the disc. <span class="rule-ref">Rule 14.4</span>` },
-  { id: "score-5", cat: "Scoring", q: "After a goal is scored (and the game is not over), what happens next?", a: `(1) The next point starts <strong>immediately</strong>; (2) teams <strong>switch the end zone</strong> they are defending; (3) the team that scored becomes <strong>defence and pulls next</strong>. <span class="rule-ref">Rule 4.5</span>` },
+  { id:"score-1", cat:"Scoring", q:"How many goals are needed to win a game?", a:`The first team to score <strong>15 goals</strong> wins. Half-time occurs when a team first scores <strong>8 goals</strong>. <span class="rule-ref">Rules 4.2, 4.3</span>` },
+  { id:"score-2", cat:"Scoring", q:"What are the exact conditions for a legal goal?", a:`An in-bounds player catches a legal pass where <strong>all ground contacts are entirely within their attacking end zone</strong>, they <strong>subsequently establish possession</strong>, and <strong>maintain the catch throughout all ground contact</strong> related to that catch. <span class="rule-ref">Rule 14.1</span>` },
+  { id:"score-3", cat:"Scoring", q:"What happens if a player in possession ends up in their attacking end zone but didn't score?", a:`The player must establish a pivot point at the <strong>nearest location on the goal line</strong>. <span class="rule-ref">Rule 14.3</span>` },
+  { id:"score-4", cat:"Scoring", q:"When is the time of a goal deemed to have been scored?", a:`When the player <strong>established possession</strong> of the disc. <span class="rule-ref">Rule 14.4</span>` },
+  { id:"score-5", cat:"Scoring", q:"After a goal is scored (and the game is not over), what happens next?", a:`(1) The next point starts <strong>immediately</strong>; (2) teams <strong>switch the end zone</strong> they are defending; (3) the team that scored becomes <strong>defence and pulls next</strong>. <span class="rule-ref">Rule 4.5</span>` },
 
   // Turnovers
-  { id: "turn-1", cat: "Turnovers", q: "What are the four types of turnovers that transfer possession without stopping play?", a: `<strong>Down</strong> (disc contacts ground not in possession), <strong>Interception</strong> (defence catches a pass), <strong>Out-of-bounds</strong>, and <strong>Dropped pull</strong>. <span class="rule-ref">Rule 13.1</span>` },
-  { id: "turn-2", cat: "Turnovers", q: "What is a stall-out turnover?", a: `When the thrower has <strong>not released the pass</strong> before the marker first starts to say the word <strong>"ten"</strong> in the stall count. <span class="rule-ref">Rule 13.2.2</span>` },
-  { id: "turn-3", cat: "Turnovers", q: "What is a 'handover' violation?", a: `When the disc is <strong>intentionally transferred</strong> from one offensive player to another without ever being completely untouched by both players simultaneously. It results in a turnover and stops play. <span class="rule-ref">Rule 13.2.3</span>` },
-  { id: "turn-4", cat: "Turnovers", q: "What is a 'self-catch' turnover?", a: `When the thrower, in attempting a pass, <strong>catches the disc after release</strong> prior to the disc being contacted by another player. <span class="rule-ref">Rule 13.2.5</span>` },
-  { id: "turn-5", cat: "Turnovers", q: "After a turnover in the offence's defending end zone, what are the thrower's pivot options?", a: `Stay at the <strong>turnover location</strong> (by staying put or faking a pass), OR move to the <strong>nearest location on the goal line</strong> (signal by extending one arm overhead before picking up the disc). This choice cannot be reversed. <span class="rule-ref">Rule 13.11</span>` },
-  { id: "turn-6", cat: "Turnovers", q: "After a turnover in the offence's attacking end zone, where must the pivot be established?", a: `At the <strong>nearest location on the goal line</strong>. <span class="rule-ref">Rule 13.10</span>` },
-  { id: "turn-7", cat: "Turnovers", q: "After an interception, who must maintain possession?", a: `The <strong>player who made the interception</strong> must maintain possession — other offensive players cannot take it from them. <span class="rule-ref">Rule 13.5.1</span>` },
-  { id: "turn-8", cat: "Turnovers", q: "If a turnover location is out-of-bounds, where is the pivot established?", a: `At the location on the <strong>central zone nearest to where the disc went out-of-bounds</strong> (per Section 11.8). <span class="rule-ref">Rule 13.8</span>` },
+  { id:"turn-1", cat:"Turnovers", q:"What are the four types of turnovers that transfer possession without stopping play?", a:`<strong>Down</strong> (disc contacts ground not in possession), <strong>Interception</strong> (defence catches a pass), <strong>Out-of-bounds</strong>, and <strong>Dropped pull</strong>. <span class="rule-ref">Rule 13.1</span>` },
+  { id:"turn-2", cat:"Turnovers", q:"What is a stall-out turnover?", a:`When the thrower has <strong>not released the pass</strong> before the marker first starts to say the word <strong>"ten"</strong> in the stall count. <span class="rule-ref">Rule 13.2.2</span>` },
+  { id:"turn-3", cat:"Turnovers", q:"What is a 'handover' violation?", a:`When the disc is <strong>intentionally transferred</strong> from one offensive player to another without ever being completely untouched by both players simultaneously. It results in a turnover and stops play. <span class="rule-ref">Rule 13.2.3</span>` },
+  { id:"turn-4", cat:"Turnovers", q:"What is a 'self-catch' turnover?", a:`When the thrower, in attempting a pass, <strong>catches the disc after release</strong> prior to the disc being contacted by another player. <span class="rule-ref">Rule 13.2.5</span>` },
+  { id:"turn-5", cat:"Turnovers", q:"After a turnover in the offence's defending end zone, what are the thrower's pivot options?", a:`Stay at the <strong>turnover location</strong> (by staying put or faking a pass), OR move to the <strong>nearest location on the goal line</strong> (signal by extending one arm overhead before picking up the disc). This choice cannot be reversed. <span class="rule-ref">Rule 13.11</span>` },
+  { id:"turn-6", cat:"Turnovers", q:"After a turnover in the offence's attacking end zone, where must the pivot be established?", a:`At the <strong>nearest location on the goal line</strong>. <span class="rule-ref">Rule 13.10</span>` },
+  { id:"turn-7", cat:"Turnovers", q:"After an interception, who must maintain possession?", a:`The <strong>player who made the interception</strong> must maintain possession — other offensive players cannot take it from them. <span class="rule-ref">Rule 13.5.1</span>` },
+  { id:"turn-8", cat:"Turnovers", q:"If a turnover location is out-of-bounds, where is the pivot established?", a:`At the location on the <strong>central zone nearest to where the disc went out-of-bounds</strong> (per Section 11.8). <span class="rule-ref">Rule 13.8</span>` },
 
   // Fouls
-  { id: "foul-1", cat: "Fouls", q: "What is the definition of a foul in Ultimate?", a: `A breach of the rules due to <strong>non-minor contact between two or more opposing players</strong>. Note: intentionally initiating minor contact is a <strong>violation</strong>, not a foul. <span class="rule-ref">Rules 15.1, 15.1.1</span>` },
-  { id: "foul-2", cat: "Fouls", q: "Who may call a foul?", a: `<strong>Only the player who was fouled</strong> may claim a foul, by calling <strong>"Foul"</strong>. <span class="rule-ref">Rule 15.4</span>` },
-  { id: "foul-3", cat: "Fouls", q: "What is a Dangerous Play foul?", a: `Actions showing <strong>reckless disregard for the safety of fellow players</strong>, posing significant injury risk, or other dangerously aggressive behaviour. Treated as a foul <strong>regardless of whether or when contact occurs</strong>. This rule is not superseded by any other foul rule. If accepted, it is treated as the <strong>most relevant foul</strong> from Section 17. <span class="rule-ref">Rule 17.1.1</span>` },
-  { id: "foul-4", cat: "Fouls", q: "What is a Receiving Foul?", a: `When a player initiates <strong>non-minor contact with an opponent before, while, or directly after either player makes a play on the disc</strong>. After an accepted foul, the fouled player gains possession at the location of the breach. <span class="rule-ref">Rules 17.2.1, 17.2.2</span>` },
-  { id: "foul-5", cat: "Fouls", q: "What is a Force-out Foul and what is the result if accepted?", a: `When a defensive player fouls a receiver in the process of establishing possession, causing them to land <strong>out-of-bounds instead of in-bounds</strong>, or in the <strong>central zone instead of their attacking end zone</strong>. If they would have scored — <strong>a goal is awarded</strong>. <span class="rule-ref">Rule 17.5</span>` },
-  { id: "foul-6", cat: "Fouls", q: "What is a Strip Foul?", a: `When an opponent fouls a player causing them to <strong>drop a disc they caught or lose possession</strong>. If the reception would have been a goal and the foul is accepted, <strong>a goal is awarded</strong>. <span class="rule-ref">Rule 17.3</span>` },
-  { id: "foul-7", cat: "Fouls", q: "What is a Blocking Foul?", a: `When a player takes a position that an opponent moving in a legal manner <strong>will be unable to avoid</strong> (based on their established speed and direction), and non-minor contact results. Treated as a <strong>receiving foul or indirect foul</strong>, whichever applies. <span class="rule-ref">Rule 17.4</span>` },
-  { id: "foul-8", cat: "Fouls", q: "What is an Indirect Foul?", a: `Non-minor contact between a receiver and a defensive player that <strong>does not directly affect an attempt to make a play on the disc</strong>. The player may delay the call up to <strong>2 seconds</strong> to see if the breach affects play. <span class="rule-ref">Rule 17.8</span>` },
-  { id: "foul-9", cat: "Fouls", q: "What are offsetting fouls?", a: `When <strong>accepted fouls are called by both an offensive and defensive player on the same play</strong>. The disc is returned to the last non-disputed thrower. Also applies when non-minor contact results from two opposing players moving towards a single point simultaneously. <span class="rule-ref">Rule 17.9</span>` },
-  { id: "foul-10", cat: "Fouls", q: "What is a Defensive Throwing (Marking) Foul?", a: `When (1) there is non-minor contact between the thrower and an <strong>illegally positioned</strong> defensive player, or (2) a defensive player <strong>initiates non-minor contact</strong> with the thrower prior to releasing the pass. If before the throwing motion, the thrower may instead call <strong>"Contact"</strong> — play doesn't stop, stall resets to 1. <span class="rule-ref">Rule 17.6</span>` },
+  { id:"foul-1", cat:"Fouls", q:"What is the definition of a foul in Ultimate?", a:`A breach of the rules due to <strong>non-minor contact between two or more opposing players</strong>. Note: intentionally initiating minor contact is a <strong>violation</strong>, not a foul. <span class="rule-ref">Rules 15.1, 15.1.1</span>` },
+  { id:"foul-2", cat:"Fouls", q:"Who may call a foul?", a:`<strong>Only the player who was fouled</strong> may claim a foul, by calling <strong>"Foul"</strong>. <span class="rule-ref">Rule 15.4</span>` },
+  { id:"foul-3", cat:"Fouls", q:"What is a Dangerous Play foul?", a:`Actions showing <strong>reckless disregard for the safety of fellow players</strong>, posing significant injury risk, or other dangerously aggressive behaviour. Treated as a foul <strong>regardless of whether or when contact occurs</strong>. This rule is not superseded by any other foul rule. If accepted, it is treated as the <strong>most relevant foul</strong> from Section 17. <span class="rule-ref">Rule 17.1.1</span>` },
+  { id:"foul-4", cat:"Fouls", q:"What is a Receiving Foul?", a:`When a player initiates <strong>non-minor contact with an opponent before, while, or directly after either player makes a play on the disc</strong>. After an accepted foul, the fouled player gains possession at the location of the breach. <span class="rule-ref">Rules 17.2.1, 17.2.2</span>` },
+  { id:"foul-5", cat:"Fouls", q:"What is a Force-out Foul and what is the result if accepted?", a:`When a defensive player fouls a receiver in the process of establishing possession, causing them to land <strong>out-of-bounds instead of in-bounds</strong>, or in the <strong>central zone instead of their attacking end zone</strong>. If they would have scored — <strong>a goal is awarded</strong>. <span class="rule-ref">Rule 17.5</span>` },
+  { id:"foul-6", cat:"Fouls", q:"What is a Strip Foul?", a:`When an opponent fouls a player causing them to <strong>drop a disc they caught or lose possession</strong>. If the reception would have been a goal and the foul is accepted, <strong>a goal is awarded</strong>. <span class="rule-ref">Rule 17.3</span>` },
+  { id:"foul-7", cat:"Fouls", q:"What is a Blocking Foul?", a:`When a player takes a position that an opponent moving in a legal manner <strong>will be unable to avoid</strong> (based on their established speed and direction), and non-minor contact results. Treated as a <strong>receiving foul or indirect foul</strong>, whichever applies. <span class="rule-ref">Rule 17.4</span>` },
+  { id:"foul-8", cat:"Fouls", q:"What is an Indirect Foul?", a:`Non-minor contact between a receiver and a defensive player that <strong>does not directly affect an attempt to make a play on the disc</strong>. The player may delay the call up to <strong>2 seconds</strong> to see if the breach affects play. <span class="rule-ref">Rule 17.8</span>` },
+  { id:"foul-9", cat:"Fouls", q:"What are offsetting fouls?", a:`When <strong>accepted fouls are called by both an offensive and defensive player on the same play</strong>. The disc is returned to the last non-disputed thrower. Also applies when non-minor contact results from two opposing players moving towards a single point simultaneously. <span class="rule-ref">Rule 17.9</span>` },
+  { id:"foul-10", cat:"Fouls", q:"What is a Defensive Throwing (Marking) Foul?", a:`When (1) there is non-minor contact between the thrower and an <strong>illegally positioned</strong> defensive player, or (2) a defensive player <strong>initiates non-minor contact</strong> with the thrower prior to releasing the pass. If before the throwing motion, the thrower may instead call <strong>"Contact"</strong> — play doesn't stop, stall resets to 1. <span class="rule-ref">Rule 17.6</span>` },
 
-  // Infractions & Violations
-  { id: "inf-1", cat: "Infractions", q: "What is the difference between a foul, an infraction, and a violation?", a: `<strong>Foul</strong> = non-minor contact between opponents. <strong>Infraction</strong> = marking or travel breach (does NOT stop play). <strong>Violation</strong> = every other breach of the rules. <span class="rule-ref">Rules 15.1–15.3</span>` },
-  { id: "inf-2", cat: "Infractions", q: "What is a 'Fast Count' marking infraction?", a: `When the marker: starts/continues the stall count illegally; doesn't start with "Stalling"; counts in under 1-second intervals; doesn't correctly reduce/reset the count; or doesn't start from the correct number. <span class="rule-ref">Rule 18.1.1.1</span>` },
-  { id: "inf-3", cat: "Infractions", q: "What is a 'Straddle' marking infraction?", a: `When a <strong>line between a defensive player's feet</strong> comes within <strong>one disc diameter</strong> of the thrower's pivot point. <span class="rule-ref">Rule 18.1.1.2</span>` },
-  { id: "inf-4", cat: "Infractions", q: "What is a 'Disc Space' marking infraction?", a: `When any part of a defensive player is less than <strong>one disc diameter</strong> from the <strong>torso</strong> of the thrower. Not an infraction if caused solely by the thrower's own movement. <span class="rule-ref">Rule 18.1.1.3</span>` },
-  { id: "inf-5", cat: "Infractions", q: "What is a 'Wrapping' marking infraction?", a: `When a line between a defensive player's <strong>hands or arms</strong> comes within one disc diameter of the thrower's torso, or any part of the defender's body is <strong>above the thrower's pivot point</strong>. Not an infraction if caused solely by the thrower's movement. <span class="rule-ref">Rule 18.1.1.4</span>` },
-  { id: "inf-6", cat: "Infractions", q: "What is a 'Double Team' marking infraction?", a: `When a defensive player <strong>other than the marker</strong> is within <strong>3 metres of the thrower's pivot point</strong> without also guarding another offensive player. Merely running across this area is <strong>not</strong> a double team. <span class="rule-ref">Rule 18.1.1.5</span>` },
-  { id: "inf-7", cat: "Infractions", q: "What is a 'Vision' marking infraction?", a: `When a defensive player uses any part of their body to <strong>intentionally obstruct the thrower's vision</strong>. <span class="rule-ref">Rule 18.1.1.6</span>` },
-  { id: "inf-8", cat: "Infractions", q: "After a marking infraction, how does the stall count resume?", a: `The marker resumes at the number <strong>last fully uttered minus one (1)</strong>. They must <strong>not resume counting until any illegal positioning is corrected</strong> — failing to do so is a subsequent infraction. <span class="rule-ref">Rule 18.1.3</span>` },
-  { id: "inf-9", cat: "Infractions", q: "When can a player call a marking violation (stopping play) instead of a marking infraction?", a: `When: (1) the stall count is not corrected; (2) there is no stall count; (3) there is an <strong>egregious</strong> marking infraction; or (4) there is a <strong>pattern of repeated</strong> marking infractions. <span class="rule-ref">Rule 18.1.4</span>` },
-  { id: "inf-10", cat: "Infractions", q: "What is a Travel infraction?", a: `Occurs when the thrower: establishes pivot at wrong location; doesn't reduce speed quickly enough after a catch; changes direction after a catch; releases a pass breaching the momentum rule (18.2.1.1); doesn't establish pivot before wind-up; or fails to maintain the pivot until release. <span class="rule-ref">Rule 18.2.4</span>` },
-  { id: "inf-11", cat: "Infractions", q: "After an accepted travel infraction, does play stop?", a: `<strong>No</strong> — play does not stop. The stall count is <strong>paused</strong>, the thrower establishes the correct pivot point, then play continues. If the thrower throws before correcting, defence may call a <strong>travel violation</strong> to stop play and return the disc. <span class="rule-ref">Rules 18.2.5–18.2.6</span>` },
-  { id: "inf-12", cat: "Infractions", q: "Can a player catch the disc while running and release without stopping?", a: `<strong>Yes</strong>, if: they do <strong>not change direction or increase speed</strong> before releasing, and make a <strong>maximum of two additional ground contacts</strong> after the catch before releasing. <span class="rule-ref">Rule 18.2.1.1</span>` },
-  { id: "inf-13", cat: "Infractions", q: "What is a 'Pick' violation?", a: `When a defensive player guarding one offensive player is <strong>prevented from moving towards/with that player by another player</strong>. Not a pick if both the guarded player and the obstructing player are making a play on the disc. The defender may delay calling it up to <strong>2 seconds</strong>. <span class="rule-ref">Rule 18.3.1</span>` },
-  { id: "inf-14", cat: "Infractions", q: "Who can call infractions and who can call travel?", a: `Generally <strong>only the thrower</strong> may claim an infraction. Exceptions: <strong>any offensive player may call a double team</strong>, and <strong>any defensive player may call a travel</strong>. <span class="rule-ref">Rules 15.5, 15.5.1</span>` },
+  // Infractions
+  { id:"inf-1", cat:"Infractions", q:"What is the difference between a foul, an infraction, and a violation?", a:`<strong>Foul</strong> = non-minor contact between opponents. <strong>Infraction</strong> = marking or travel breach (does NOT stop play). <strong>Violation</strong> = every other breach of the rules. <span class="rule-ref">Rules 15.1–15.3</span>` },
+  { id:"inf-2", cat:"Infractions", q:"What is a 'Fast Count' marking infraction?", a:`When the marker: starts/continues the stall count illegally; doesn't start with "Stalling"; counts in under 1-second intervals; doesn't correctly reduce/reset the count; or doesn't start from the correct number. <span class="rule-ref">Rule 18.1.1.1</span>` },
+  { id:"inf-3", cat:"Infractions", q:"What is a 'Straddle' marking infraction?", a:`When a <strong>line between a defensive player's feet</strong> comes within <strong>one disc diameter</strong> of the thrower's pivot point. <span class="rule-ref">Rule 18.1.1.2</span>` },
+  { id:"inf-4", cat:"Infractions", q:"What is a 'Disc Space' marking infraction?", a:`When any part of a defensive player is less than <strong>one disc diameter</strong> from the <strong>torso</strong> of the thrower. Not an infraction if caused solely by the thrower's own movement. <span class="rule-ref">Rule 18.1.1.3</span>` },
+  { id:"inf-5", cat:"Infractions", q:"What is a 'Wrapping' marking infraction?", a:`When a line between a defensive player's <strong>hands or arms</strong> comes within one disc diameter of the thrower's torso, or any part of the defender's body is <strong>above the thrower's pivot point</strong>. Not an infraction if caused solely by the thrower's movement. <span class="rule-ref">Rule 18.1.1.4</span>` },
+  { id:"inf-6", cat:"Infractions", q:"What is a 'Double Team' marking infraction?", a:`When a defensive player <strong>other than the marker</strong> is within <strong>3 metres of the thrower's pivot point</strong> without also guarding another offensive player. Merely running across this area is <strong>not</strong> a double team. <span class="rule-ref">Rule 18.1.1.5</span>` },
+  { id:"inf-7", cat:"Infractions", q:"What is a 'Vision' marking infraction?", a:`When a defensive player uses any part of their body to <strong>intentionally obstruct the thrower's vision</strong>. <span class="rule-ref">Rule 18.1.1.6</span>` },
+  { id:"inf-8", cat:"Infractions", q:"After a marking infraction, how does the stall count resume?", a:`The marker resumes at the number <strong>last fully uttered minus one (1)</strong>. They must <strong>not resume counting until any illegal positioning is corrected</strong> — failing to do so is a subsequent infraction. <span class="rule-ref">Rule 18.1.3</span>` },
+  { id:"inf-9", cat:"Infractions", q:"When can a player call a marking violation (stopping play) instead of a marking infraction?", a:`When: (1) the stall count is not corrected; (2) there is no stall count; (3) there is an <strong>egregious</strong> marking infraction; or (4) there is a <strong>pattern of repeated</strong> marking infractions. <span class="rule-ref">Rule 18.1.4</span>` },
+  { id:"inf-10", cat:"Infractions", q:"What is a Travel infraction?", a:`Occurs when the thrower: establishes pivot at wrong location; doesn't reduce speed quickly enough after a catch; changes direction after a catch; releases a pass breaching the momentum rule (18.2.1.1); doesn't establish pivot before wind-up; or fails to maintain the pivot until release. <span class="rule-ref">Rule 18.2.4</span>` },
+  { id:"inf-11", cat:"Infractions", q:"After an accepted travel infraction, does play stop?", a:`<strong>No</strong> — play does not stop. The stall count is <strong>paused</strong>, the thrower establishes the correct pivot point, then play continues. If the thrower throws before correcting, defence may call a <strong>travel violation</strong> to stop play and return the disc. <span class="rule-ref">Rules 18.2.5–18.2.6</span>` },
+  { id:"inf-12", cat:"Infractions", q:"Can a player catch the disc while running and release without stopping?", a:`<strong>Yes</strong>, if: they do <strong>not change direction or increase speed</strong> before releasing, and make a <strong>maximum of two additional ground contacts</strong> after the catch before releasing. <span class="rule-ref">Rule 18.2.1.1</span>` },
+  { id:"inf-13", cat:"Infractions", q:"What is a 'Pick' violation?", a:`When a defensive player guarding one offensive player is <strong>prevented from moving towards/with that player by another player</strong>. Not a pick if both the guarded player and the obstructing player are making a play on the disc. The defender may delay calling it up to <strong>2 seconds</strong>. <span class="rule-ref">Rule 18.3.1</span>` },
+  { id:"inf-14", cat:"Infractions", q:"Who can call infractions and who can call travel?", a:`Generally <strong>only the thrower</strong> may claim an infraction. Exceptions: <strong>any offensive player may call a double team</strong>, and <strong>any defensive player may call a travel</strong>. <span class="rule-ref">Rules 15.5, 15.5.1</span>` },
 
-  // Continuation after a Call
-  { id: "cont-1", cat: "Continuation", q: "What is the general rule when any call is made?", a: `Play <strong>stops immediately</strong> and no turnover is possible — unless the call involves the thrower mid-throw, the call is made during a throw, the disc is in the air, or the play stands under Rule 16.3. <span class="rule-ref">Rules 16.1, 16.2</span>` },
-  { id: "cont-2", cat: "Continuation", q: "If a foul is called while the disc is in the air, when does play actually stop?", a: `Play <strong>continues until possession has been established</strong>. If the calling team gains or retains possession, the play stands ("Play on"). If they don't, play stops and the disc may be returned to the thrower. <span class="rule-ref">Rule 16.2</span>` },
-  { id: "cont-3", cat: "Continuation", q: "When does the 'play stands' rule (16.3) apply?", a: `Regardless of when any call is made, if <strong>players from both teams agree the event did not affect the outcome</strong>, the play stands. This rule is <strong>not superseded by any other rule</strong>. <span class="rule-ref">Rule 16.3</span>` },
+  // Continuation
+  { id:"cont-1", cat:"Continuation", q:"What is the general rule when any call is made?", a:`Play <strong>stops immediately</strong> and no turnover is possible — unless the call involves the thrower mid-throw, the call is made during a throw, the disc is in the air, or the play stands under Rule 16.3. <span class="rule-ref">Rules 16.1, 16.2</span>` },
+  { id:"cont-2", cat:"Continuation", q:"If a foul is called while the disc is in the air, when does play actually stop?", a:`Play <strong>continues until possession has been established</strong>. If the calling team gains or retains possession, the play stands ("Play on"). If they don't, play stops and the disc may be returned to the thrower. <span class="rule-ref">Rule 16.2</span>` },
+  { id:"cont-3", cat:"Continuation", q:"When does the 'play stands' rule (16.3) apply?", a:`Regardless of when any call is made, if <strong>players from both teams agree the event did not affect the outcome</strong>, the play stands. This rule is <strong>not superseded by any other rule</strong>. <span class="rule-ref">Rule 16.3</span>` },
 
-  // Time-outs & Safety
-  { id: "to-1", cat: "Time-Outs", q: "How does a player call a time-out?", a: `The player forms a <strong>"T"</strong> with their hands (or one hand and the disc) and calls <strong>"Time-out"</strong>. After the pull, only the <strong>thrower in possession</strong> may call a time-out. <span class="rule-ref">Rules 20.1, 20.3</span>` },
-  { id: "to-2", cat: "Time-Outs", q: "How long does a time-out last and at what stall count does play restart?", a: `Time-outs last <strong>75 seconds</strong>. Stall count restarts at a <strong>maximum of 9</strong>. If the marker has been switched, it restarts at <strong>"Stalling 1"</strong>. <span class="rule-ref">Rules 20.3, 20.3.6</span>` },
-  { id: "to-3", cat: "Time-Outs", q: "After a time-out, how do players set up for the restart?", a: `(1) Play restarts at the <strong>pivot location</strong>; (2) the <strong>thrower must remain the same</strong>; (3) offensive players establish a stationary position anywhere; (4) <strong>then</strong> defensive players establish a stationary position anywhere. No substitutions except for injury. <span class="rule-ref">Rules 20.3.1–20.3.5</span>` },
-  { id: "to-4", cat: "Time-Outs", q: "What happens if a team calls a time-out with no time-outs remaining?", a: `Play stops. The marker adds <strong>2 seconds</strong> to the stall count they would have restarted on, then restarts with a check. If the count reaches <strong>10 or above</strong>, it is a <strong>stall-out turnover</strong>. <span class="rule-ref">Rule 20.4</span>` },
-  { id: "to-5", cat: "Time-Outs", q: "Who can call an Injury Stoppage?", a: `The <strong>injured player</strong>, or <strong>any player on the injured player's team</strong>. <span class="rule-ref">Rule 19.1.1</span>` },
-  { id: "to-6", cat: "Time-Outs", q: "When can a substitute be used after an injury stoppage?", a: `If the injury was <strong>not caused by an opponent</strong>: the player must choose to be <strong>substituted or use a team time-out</strong>. If the injury <strong>was caused by an opponent</strong>: the player may choose to <strong>stay or be substituted</strong>. <span class="rule-ref">Rules 19.1.2, 19.1.3</span>` },
-  { id: "to-7", cat: "Time-Outs", q: "What is a Technical Stoppage and who can call it?", a: `<strong>Any player</strong> who recognises a condition endangering players (e.g. an open wound) calls "Technical" or "Stop" — play stops immediately. The thrower may also call it to replace a <strong>severely damaged disc</strong>. The player with a bleeding wound has <strong>70 seconds</strong> to address it. <span class="rule-ref">Rules 19.2.1, 19.2.1.2, 19.2.2</span>` },
+  // Time-Outs
+  { id:"to-1", cat:"Time-Outs", q:"How does a player call a time-out?", a:`The player forms a <strong>"T"</strong> with their hands (or one hand and the disc) and calls <strong>"Time-out"</strong>. After the pull, only the <strong>thrower in possession</strong> may call a time-out. <span class="rule-ref">Rules 20.1, 20.3</span>` },
+  { id:"to-2", cat:"Time-Outs", q:"How long does a time-out last and at what stall count does play restart?", a:`Time-outs last <strong>75 seconds</strong>. Stall count restarts at a <strong>maximum of 9</strong>. If the marker has been switched, it restarts at <strong>"Stalling 1"</strong>. <span class="rule-ref">Rules 20.3, 20.3.6</span>` },
+  { id:"to-3", cat:"Time-Outs", q:"After a time-out, how do players set up for the restart?", a:`(1) Play restarts at the <strong>pivot location</strong>; (2) the <strong>thrower must remain the same</strong>; (3) offensive players establish a stationary position anywhere; (4) <strong>then</strong> defensive players establish a stationary position anywhere. No substitutions except for injury. <span class="rule-ref">Rules 20.3.1–20.3.5</span>` },
+  { id:"to-4", cat:"Time-Outs", q:"What happens if a team calls a time-out with no time-outs remaining?", a:`Play stops. The marker adds <strong>2 seconds</strong> to the stall count they would have restarted on, then restarts with a check. If the count reaches <strong>10 or above</strong>, it is a <strong>stall-out turnover</strong>. <span class="rule-ref">Rule 20.4</span>` },
+  { id:"to-5", cat:"Time-Outs", q:"Who can call an Injury Stoppage?", a:`The <strong>injured player</strong>, or <strong>any player on the injured player's team</strong>. <span class="rule-ref">Rule 19.1.1</span>` },
+  { id:"to-6", cat:"Time-Outs", q:"When can a substitute be used after an injury stoppage?", a:`If the injury was <strong>not caused by an opponent</strong>: the player must choose to be <strong>substituted or use a team time-out</strong>. If the injury <strong>was caused by an opponent</strong>: the player may choose to <strong>stay or be substituted</strong>. <span class="rule-ref">Rules 19.1.2, 19.1.3</span>` },
+  { id:"to-7", cat:"Time-Outs", q:"What is a Technical Stoppage and who can call it?", a:`<strong>Any player</strong> who recognises a condition endangering players (e.g. an open wound) calls "Technical" or "Stop" — play stops immediately. The thrower may also call it to replace a <strong>severely damaged disc</strong>. The player with a bleeding wound has <strong>70 seconds</strong> to address it. <span class="rule-ref">Rules 19.2.1, 19.2.1.2, 19.2.2</span>` },
 
-  // Teams & Equipment
-  { id: "team-1", cat: "Teams", q: "How many players are on the field per team and what is the minimum?", a: `A maximum of <strong>7 players</strong> and a minimum of <strong>5 players</strong> per team on the field during each point. <span class="rule-ref">Rule 5.1</span>` },
-  { id: "team-2", cat: "Teams", q: "When can a team make substitutions?", a: `Teams may make <strong>unlimited substitutions</strong> after a goal is scored and <strong>before their team signals readiness for the pull</strong>. During a time-out after the pull, substitutions are <strong>not allowed</strong> (except for injury). <span class="rule-ref">Rules 5.3, 20.3.1</span>` },
-  { id: "team-3", cat: "Teams", q: "What two captains must each team designate?", a: `A <strong>captain</strong> and a <strong>spirit captain</strong> to represent the team. <span class="rule-ref">Rule 5.2</span>` },
-  { id: "team-4", cat: "Teams", q: "How is the opening coin toss decided and what choices are available?", a: `Representatives fairly determine which team first chooses either: (1) <strong>whether to receive or throw</strong> the initial pull; or (2) <strong>which end zone to initially defend</strong>. The other team gets the remaining choice. At the second half, selections are <strong>switched</strong>. <span class="rule-ref">Rules 6.1–6.3</span>` },
-  { id: "team-5", cat: "Teams", q: "What equipment rules apply to players?", a: `Each player must wear a <strong>uniform that distinguishes their team</strong>. No player may wear items that could <strong>harm the wearer or other players</strong>, or <strong>impede an opponent's ability to play</strong>. Any disc acceptable to both captains may be used. <span class="rule-ref">Rules 3.1, 3.3, 3.4</span>` },
+  // Teams
+  { id:"team-1", cat:"Teams", q:"How many players are on the field per team and what is the minimum?", a:`A maximum of <strong>7 players</strong> and a minimum of <strong>5 players</strong> per team on the field during each point. <span class="rule-ref">Rule 5.1</span>` },
+  { id:"team-2", cat:"Teams", q:"When can a team make substitutions?", a:`Teams may make <strong>unlimited substitutions</strong> after a goal is scored and <strong>before their team signals readiness for the pull</strong>. During a time-out after the pull, substitutions are <strong>not allowed</strong> (except for injury). <span class="rule-ref">Rules 5.3, 20.3.1</span>` },
+  { id:"team-3", cat:"Teams", q:"What two captains must each team designate?", a:`A <strong>captain</strong> and a <strong>spirit captain</strong> to represent the team. <span class="rule-ref">Rule 5.2</span>` },
+  { id:"team-4", cat:"Teams", q:"How is the opening coin toss decided and what choices are available?", a:`Representatives fairly determine which team first chooses either: (1) <strong>whether to receive or throw</strong> the initial pull; or (2) <strong>which end zone to initially defend</strong>. The other team gets the remaining choice. At the second half, selections are <strong>switched</strong>. <span class="rule-ref">Rules 6.1–6.3</span>` },
+  { id:"team-5", cat:"Teams", q:"What equipment rules apply to players?", a:`Each player must wear a <strong>uniform that distinguishes their team</strong>. No player may wear items that could <strong>harm the wearer or other players</strong>, or <strong>impede an opponent's ability to play</strong>. Any disc acceptable to both captains may be used. <span class="rule-ref">Rules 3.1, 3.3, 3.4</span>` },
 ];
 
-/* ========== SPACED REPETITION (simplified SM-2) ========== */
+/* ========== DECISION TREES ========== */
+const TREES = {
+  pull: {
+    id:'pull', title:'Pull Outcome', icon:'🥏',
+    desc:"Where should the thrower establish a pivot point after a pull?",
+    ruleRef:'Rules 7.8–7.12', root:'q1',
+    nodes:{
+      q1:{ type:'q', text:'Did the offence touch the disc while it was in the air?', answers:[
+        {label:'Yes, offence touched it', next:'q2'},
+        {label:'No', next:'q3'},
+      ]},
+      q2:{ type:'q', text:'Did the offence catch it and keep possession?', answers:[
+        {label:'Yes, caught & kept', next:'q2a'},
+        {label:'No — dropped', next:'o_drop'},
+      ]},
+      q2a:{ type:'q', text:'Was the catch in-bounds?', answers:[
+        {label:'Yes, in-bounds', next:'o_catch_in'},
+        {label:'No, out-of-bounds', next:'o_catch_oob'},
+      ]},
+      q3:{ type:'q', text:'Did the disc land in the playing field?', answers:[
+        {label:'Yes, landed in', next:'q3a'},
+        {label:'No, went straight OB', next:'q4'},
+      ]},
+      q3a:{ type:'q', text:'Did the disc stay in-bounds?', answers:[
+        {label:'Stayed in-bounds', next:'o_stops'},
+        {label:'Rolled out-of-bounds', next:'q3b'},
+      ]},
+      q3b:{ type:'q', text:'Did the offence touch it before it went OB?', answers:[
+        {label:'Yes, touched it', next:'o_crossed_offense'},
+        {label:'No', next:'o_crossed_clean'},
+      ]},
+      q4:{ type:'q', text:'Did the offence call "Brick"?', answers:[
+        {label:'Yes — Brick!', next:'o_brick'},
+        {label:'No', next:'o_crossed_clean'},
+      ]},
+      o_drop:{ type:'o', result:'Turnover (Dropped Pull)', detail:'The offence touched the disc before it hit the ground and failed to establish possession. Defence gains possession.', rules:['7.8']},
+      o_catch_in:{ type:'o', result:'Play from where caught', detail:'Establish a pivot point at the location on the playing field nearest to where possession was established.', rules:['7.9']},
+      o_catch_oob:{ type:'o', result:'Play from nearest in-bounds point', detail:'Establish a pivot point at the location on the playing field nearest to where possession was established, even if in your defending end zone.', rules:['7.9']},
+      o_stops:{ type:'o', result:'Play from where disc stops', detail:'Establish pivot where the disc stops — even if in your defending end zone.', rules:['7.10']},
+      o_crossed_offense:{ type:'o', result:'Play from crossing point', detail:'Establish pivot where the disc first crossed the perimeter line — even if in your defending end zone.', rules:['7.11.1']},
+      o_crossed_clean:{ type:'o', result:'Play from crossing (or goal line)', detail:'Establish pivot where the disc first crossed the perimeter line — or the nearest central zone location if that would be in your defending end zone.', rules:['7.11','7.12']},
+      o_brick:{ type:'o', result:'Play from the brick mark', detail:'Establish pivot at the brick mark closest to your defending end zone. Remember: "Brick" must be signalled with one arm overhead before picking up the disc.', rules:['7.12']},
+    },
+  },
+
+  receivingFoul: {
+    id:'receivingFoul', title:'Receiving Foul', icon:'🤝',
+    desc:'Foul called by a receiver — what happens next?',
+    ruleRef:'Rule 17.2', root:'q1',
+    nodes:{
+      q1:{ type:'q', text:'Who committed the foul?', answers:[
+        {label:'The offence', next:'q2a'},
+        {label:'The defence', next:'q2b'},
+      ]},
+      q2a:{ type:'q', text:'Was the pass completed?', answers:[
+        {label:'Yes, completed', next:'q3a'},
+        {label:'No, incomplete', next:'o_off_incomplete'},
+      ]},
+      q3a:{ type:'q', text:'Was the foul contested?', answers:[
+        {label:'Accepted', next:'o_off_accepted'},
+        {label:'Contested', next:'o_off_contested'},
+      ]},
+      o_off_incomplete:{ type:'o', result:'Defence takes possession at breach point', detail:'An accepted offensive receiving foul is a turnover. Play restarts with a check at the breach location.', rules:['17.2.2','13.2.1']},
+      o_off_accepted:{ type:'o', result:'Defence takes possession at breach point', detail:'The offensive foul affected the completion. Defence takes possession at the breach location.', rules:['17.2.2']},
+      o_off_contested:{ type:'o', result:'Back to thrower · Stall max 6', detail:'Contested — disc returns to the thrower. Stall count resumes at maximum 6.', rules:['9.5.4']},
+
+      q2b:{ type:'q', text:'Was the pass completed?', answers:[
+        {label:'Yes, completed', next:'q3b'},
+        {label:'No, incomplete', next:'q3c'},
+      ]},
+      q3b:{ type:'q', text:'Did the foul affect possession?', answers:[
+        {label:'No', next:'o_playon'},
+        {label:'Yes', next:'q4b'},
+      ]},
+      q3c:{ type:'q', text:'Did the foul affect possession?', answers:[
+        {label:'No', next:'o_playon'},
+        {label:'Yes', next:'q4c'},
+      ]},
+      q4b:{ type:'q', text:'Was the foul contested?', answers:[
+        {label:'Accepted', next:'o_playon'},
+        {label:'Contested', next:'o_stands_check'},
+      ]},
+      q4c:{ type:'q', text:'Was the foul contested?', answers:[
+        {label:'Accepted', next:'o_def_accepted'},
+        {label:'Contested', next:'o_def_contested'},
+      ]},
+      o_playon:{ type:'o', result:'Play on!', detail:'Foul did not affect the result — play continues.', rules:['16.2.4.1','16.3']},
+      o_stands_check:{ type:'o', result:'Play stands — restart with check', detail:'Even though contested, play stands because the result was not affected.', rules:['16.2.4.2']},
+      o_def_accepted:{ type:'o', result:'Receiver takes possession at breach point', detail:'The fouled player gains possession at the breach location (even in an end zone). Play restarts with a check.', rules:['17.2.2']},
+      o_def_contested:{ type:'o', result:'Back to thrower · Stall max 6', detail:'Contested defensive foul — disc returns to thrower. Stall resumes at max 6.', rules:['9.5.4','17.2.2']},
+    },
+  },
+
+  markerFoulPass: {
+    id:'markerFoulPass', title:'Marker Foul (Pass Attempted)', icon:'🚧',
+    desc:'Defensive throwing foul when a pass was thrown.',
+    ruleRef:'Rule 17.6', root:'q1',
+    nodes:{
+      q1:{ type:'q', text:'When was the foul called?', answers:[
+        {label:'Before the throw', next:'q2a'},
+        {label:'During/after the throw', next:'q2b'},
+      ]},
+      q2a:{ type:'q', text:'Did the pass result in a turnover?', answers:[
+        {label:'No (completion)', next:'q3a'},
+        {label:'Yes (turnover)', next:'o_back_1'},
+      ]},
+      q3a:{ type:'q', text:'Did the foul affect the play?', answers:[
+        {label:'No', next:'o_stands_mp'},
+        {label:'Yes', next:'q4a'},
+      ]},
+      q4a:{ type:'q', text:'Was the foul contested?', answers:[
+        {label:'Accepted', next:'o_back_1'},
+        {label:'Contested', next:'o_back_max6'},
+      ]},
+      o_back_1:{ type:'o', result:'Disc back to thrower · Stalling 1', detail:'Accepted defensive breach — disc returns to thrower, stall count restarts at 1.', rules:['9.5.1','16.2.4.2.1']},
+      o_back_max6:{ type:'o', result:'Disc back to thrower · Stall max 6', detail:'Contested call — disc returns to thrower. Stall resumes at max 6.', rules:['9.5.4','16.2.4.2.1']},
+      o_stands_mp:{ type:'o', result:'Play stands — result holds', detail:'The foul did not affect the play. The turnover or completion stands.', rules:['16.3']},
+
+      q2b:{ type:'q', text:'Did the foul affect possession?', answers:[
+        {label:'No', next:'o_playon_mp'},
+        {label:'Yes', next:'q3b'},
+      ]},
+      q3b:{ type:'q', text:'Was the foul contested?', answers:[
+        {label:'Accepted', next:'o_back_1'},
+        {label:'Contested', next:'o_back_max6'},
+      ]},
+      o_playon_mp:{ type:'o', result:'Play on!', detail:'Foul did not affect possession — play continues with the result standing.', rules:['16.2.4.1']},
+    },
+  },
+
+  markerFoulNoPass: {
+    id:'markerFoulNoPass', title:'Marker Foul (No Pass)', icon:'🛑',
+    desc:'Contact from the marker with no pass attempted.',
+    ruleRef:'Rule 17.6', root:'q1',
+    nodes:{
+      q1:{ type:'q', text:'What did the thrower call?', answers:[
+        {label:'"Contact" (infraction)', next:'q2a'},
+        {label:'"Foul"', next:'q2b'},
+      ]},
+      q2a:{ type:'q', text:'Was the Contact call contested?', answers:[
+        {label:'Accepted', next:'o_ct_acc'},
+        {label:'Contested', next:'o_ct_con'},
+      ]},
+      o_ct_acc:{ type:'o', result:'No stoppage · Resume at Stalling 1', detail:'Accepted "Contact" — play does NOT stop. Marker resumes the stall count at 1.', rules:['17.6.1.3','9.5.1']},
+      o_ct_con:{ type:'o', result:'Play stops · Stall max 6', detail:'Contested "Contact" stops play. Stall count resumes at maximum 6.', rules:['9.5.4']},
+
+      q2b:{ type:'q', text:'Was the foul contested?', answers:[
+        {label:'Accepted', next:'o_fl_acc'},
+        {label:'Contested', next:'o_fl_con'},
+      ]},
+      o_fl_acc:{ type:'o', result:'Play stops · Stalling 1', detail:'Accepted defensive foul — play stops, stall count restarts at 1 after the check.', rules:['9.5.1']},
+      o_fl_con:{ type:'o', result:'Play stops · Stall max 6', detail:'Contested foul — play stops. Stall count resumes at maximum 6.', rules:['9.5.4']},
+    },
+  },
+
+  throwerFoul: {
+    id:'throwerFoul', title:'Thrower Foul (Offensive)', icon:'💥',
+    desc:'Contact initiated by the thrower against a legal defender.',
+    ruleRef:'Rule 17.7', root:'q1',
+    nodes:{
+      q1:{ type:'q', text:'Was a pass attempted?', answers:[
+        {label:'No pass attempted', next:'q2a'},
+        {label:'Pass attempted', next:'q2b'},
+      ]},
+      q2a:{ type:'q', text:'Was the foul contested?', answers:[
+        {label:'Accepted', next:'o_max9'},
+        {label:'Contested', next:'o_max6_np'},
+      ]},
+      o_max9:{ type:'o', result:'Stall max 9', detail:'Accepted offensive foul — stall count resumes at maximum 9 after a check.', rules:['9.5.2']},
+      o_max6_np:{ type:'o', result:'Stall max 6', detail:'Contested offensive foul — stall count resumes at maximum 6.', rules:['9.5.4']},
+
+      q2b:{ type:'q', text:'What was the result of the pass?', answers:[
+        {label:'Completion', next:'q3a'},
+        {label:'Turnover', next:'o_playon_tf'},
+      ]},
+      o_playon_tf:{ type:'o', result:'Play on!', detail:'Pass resulted in a turnover regardless of the foul. Play continues.', rules:['16.2.4.1']},
+      q3a:{ type:'q', text:'Did the foul affect possession?', answers:[
+        {label:'No', next:'o_playon_tf'},
+        {label:'Yes', next:'q4a'},
+      ]},
+      q4a:{ type:'q', text:'Was the foul contested?', answers:[
+        {label:'Accepted', next:'o_back_max9'},
+        {label:'Contested', next:'o_back_tf_max6'},
+      ]},
+      o_back_max9:{ type:'o', result:'Disc back to thrower · Stall max 9', detail:'Accepted offensive foul affecting possession — disc returns to thrower. Stall max 9.', rules:['9.5.2','16.2.4.2.1']},
+      o_back_tf_max6:{ type:'o', result:'Disc back to thrower · Stall max 6', detail:'Contested — disc returns to thrower. Stall max 6.', rules:['9.5.4','16.2.4.2.1']},
+    },
+  },
+
+  markingInfraction: {
+    id:'markingInfraction', title:'Marking Infraction', icon:'⏱️',
+    desc:'Fast count, disc space, straddle, wrapping, or double team.',
+    ruleRef:'Rule 18.1', root:'q1',
+    nodes:{
+      q1:{ type:'q', text:'What did the thrower call?', answers:[
+        {label:'Specific name of infraction', next:'q2a'},
+        {label:'"Violation" (egregious/repeated)', next:'q2b'},
+      ]},
+      q2a:{ type:'q', text:'Was the infraction contested?', answers:[
+        {label:'Accepted', next:'o_inf_acc'},
+        {label:'Contested', next:'o_inf_con'},
+      ]},
+      o_inf_acc:{ type:'o', result:'No stoppage · Minus 1 from stall count', detail:'Marker must remedy the illegal positioning, then resume the stall count at (last number uttered − 1).', rules:['18.1.3']},
+      o_inf_con:{ type:'o', result:'Play stops · Stall max 6', detail:'Contested infraction stops play. Stall count resumes at maximum 6.', rules:['18.1.2','9.5.4']},
+
+      q2b:{ type:'q', text:'Was the violation contested?', answers:[
+        {label:'Accepted', next:'o_viol_acc'},
+        {label:'Contested', next:'o_viol_con'},
+      ]},
+      o_viol_acc:{ type:'o', result:'Play stops · Stalling 1', detail:'Accepted marking violation — play stops, stall count restarts at 1.', rules:['9.5.1']},
+      o_viol_con:{ type:'o', result:'Play stops · Stall max 6', detail:'Contested violation — play stops. Stall count resumes at maximum 6.', rules:['9.5.4']},
+    },
+  },
+
+  travel: {
+    id:'travel', title:'Travel Called', icon:'🏃',
+    desc:'Travel infraction — does play stop, and what about the pass?',
+    ruleRef:'Rule 18.2', root:'q1',
+    nodes:{
+      q1:{ type:'q', text:'Does the thrower still have the disc?', answers:[
+        {label:'Yes, still has disc', next:'q2a'},
+        {label:'No, disc was thrown', next:'q2b'},
+      ]},
+      q2a:{ type:'q', text:'Was the travel contested?', answers:[
+        {label:'Accepted', next:'q3a'},
+        {label:'Contested', next:'o_tr_contested'},
+      ]},
+      q3a:{ type:'q', text:'Did the thrower establish the correct pivot quickly (before throwing)?', answers:[
+        {label:'Yes', next:'o_tr_playon'},
+        {label:'No (threw without correcting)', next:'o_tr_stoppage'},
+      ]},
+      o_tr_playon:{ type:'o', result:'Play on · Stall resumes', detail:'No stoppage. Stall count was paused while the pivot was corrected, then resumes. Marker does not need to say "Stalling" again.', rules:['18.2.5','18.2.6']},
+      o_tr_stoppage:{ type:'o', result:'Stoppage — travel violation', detail:'Thrower threw before correcting the pivot. Defence calls a travel violation, play stops, disc returns to thrower at the infraction location.', rules:['18.2.6','18.2.6.1']},
+      o_tr_contested:{ type:'o', result:'Stoppage · Stall max 6', detail:'Contested travel where thrower hasn\'t released — play stops. Stall count resumes at maximum 6.', rules:['18.2.8','9.5.4']},
+
+      q2b:{ type:'q', text:'Was the pass completed?', answers:[
+        {label:'Completed', next:'q3b'},
+        {label:'Turnover', next:'o_tr_turn_stands'},
+      ]},
+      q3b:{ type:'q', text:'Was the travel contested?', answers:[
+        {label:'Accepted', next:'o_tr_back'},
+        {label:'Contested', next:'o_tr_max6'},
+      ]},
+      o_tr_back:{ type:'o', result:'Stoppage · Disc back to thrower', detail:'Accepted travel on a completed pass — play stops, disc returns to the thrower.', rules:['18.2.6']},
+      o_tr_max6:{ type:'o', result:'Stall max 6', detail:'Contested travel on a completed pass — stall count resumes at maximum 6.', rules:['9.5.4']},
+      o_tr_turn_stands:{ type:'o', result:'Turnover stands', detail:'If the pass was incomplete after a travel, play continues — the turnover stands.', rules:['18.2.7']},
+    },
+  },
+
+  pick: {
+    id:'pick', title:'Pick Called', icon:'🚫',
+    desc:'Defender obstructed while guarding an offensive player.',
+    ruleRef:'Rule 18.3', root:'q1',
+    nodes:{
+      q1:{ type:'q', text:'Was the disc thrown before or when the pick was called?', answers:[
+        {label:'No, disc not thrown', next:'o_pk_notthrown'},
+        {label:'Yes, disc was thrown', next:'q2b'},
+      ]},
+      o_pk_notthrown:{ type:'o', result:'Stoppage · Defender catches up · Stall max 6', detail:'Play stops. The obstructed defender may move to the position they would have otherwise occupied. All other players return to their positions at the time of the call.', rules:['18.3.2','10.2.1','9.5.4']},
+
+      q2b:{ type:'q', text:'Was the pass completed?', answers:[
+        {label:'Completed', next:'q3a'},
+        {label:'Turnover', next:'q3b'},
+      ]},
+      q3a:{ type:'q', text:'Did the pick affect possession?', answers:[
+        {label:'No — catch up / goal', next:'o_pk_catchup'},
+        {label:'Yes', next:'o_pk_back'},
+      ]},
+      o_pk_catchup:{ type:'o', result:'Play stands · Catch up / goal', detail:'Pick didn\'t affect the outcome — the completion (or goal) stands. Defender may catch up on the restart.', rules:['16.2.4.2','16.3']},
+      o_pk_back:{ type:'o', result:'Disc back to thrower · Stall max 6', detail:'Pick affected possession — disc returns to the thrower. Players return to their positions at the time of the call.', rules:['16.2.4.2.1','10.2.2.1','9.5.4']},
+
+      q3b:{ type:'q', text:'Did the pick call affect possession?', answers:[
+        {label:'No', next:'o_pk_turnstands'},
+        {label:'Yes', next:'o_pk_back'},
+      ]},
+      o_pk_turnstands:{ type:'o', result:'Turnover stands', detail:'Pick didn\'t affect the turnover — play continues with the other team in possession.', rules:['16.3','16.2.4.1']},
+    },
+  },
+};
+
+/* ========== SRS (simplified SM-2) ========== */
 const STORAGE_KEY = 'wfdf-flashcards-v1';
 const NEW_PER_SESSION = 8;
 const MS_PER_DAY = 86400000;
@@ -768,10 +1401,7 @@ function saveState() {
 
 function getProg(cardId) {
   if (!state.cards[cardId]) {
-    state.cards[cardId] = {
-      id: cardId, status: 'new', interval: 0, ease: 2.5,
-      lapses: 0, due: 0, reviewCount: 0,
-    };
+    state.cards[cardId] = { id:cardId, status:'new', interval:0, ease:2.5, lapses:0, due:0, reviewCount:0 };
   }
   return state.cards[cardId];
 }
@@ -808,9 +1438,8 @@ function buildSession() {
     else if (p.due <= now()) due.push(card);
   }
   due.sort((a, b) => getProg(a.id).due - getProg(b.id).due);
-
   const newLimited = newCards.slice(0, NEW_PER_SESSION);
-  // Interleave
+
   const queue = [];
   const d = [...due], n = [...newLimited];
   while (d.length || n.length) {
@@ -861,10 +1490,10 @@ function previewInterval(cardId, rating) {
   return `${Math.max(1, Math.round(p.interval * p.ease * 1.3))}d`;
 }
 
-/* ========== UI ========== */
+/* ========== FLASHCARD UI ========== */
 function countsByStatus(cat) {
   const source = cat === 'All' ? ALL_CARDS : ALL_CARDS.filter(c => c.cat === cat);
-  let n = 0, l = 0, r = 0, m = 0;
+  let n=0,l=0,r=0,m=0;
   for (const c of source) {
     const p = getProg(c.id);
     if (p.status === 'new') n++;
@@ -872,7 +1501,7 @@ function countsByStatus(cat) {
     else if (p.status === 'review') r++;
     else if (p.status === 'mastered') m++;
   }
-  return { new: n, learning: l, review: r, mastered: m };
+  return { new:n, learning:l, review:r, mastered:m };
 }
 
 function dueCountForCategory(cat) {
@@ -960,7 +1589,6 @@ function rate(rating) {
 
   const p = getProg(card.id);
   if (p.status === 'learning') {
-    // Re-inject card later in this session
     const insertAt = Math.min(current + 3 + Math.floor(Math.random() * 3), deck.length);
     deck.splice(insertAt, 0, card);
   }
@@ -1053,6 +1681,108 @@ function doReset() {
   startSession();
 }
 
+/* ========== SCENARIOS UI ========== */
+let currentTree = null;
+let currentNode = null;
+let breadcrumbs = [];
+
+function setMode(mode) {
+  document.getElementById('mode-flashcards').classList.toggle('active', mode === 'flashcards');
+  document.getElementById('mode-scenarios').classList.toggle('active', mode === 'scenarios');
+  document.getElementById('flashcards-mode').style.display = mode === 'flashcards' ? 'contents' : 'none';
+  document.getElementById('scenarios-mode').style.display = mode === 'scenarios' ? '' : 'none';
+  if (mode === 'scenarios') renderScenarioList();
+}
+
+function renderScenarioList() {
+  document.getElementById('scenario-intro').style.display = '';
+  document.getElementById('tree-viewer').style.display = 'none';
+  const grid = document.getElementById('scenarios-grid');
+  grid.innerHTML = Object.values(TREES).map(tree => `
+    <button class="scenario-card" onclick="startTree('${tree.id}')">
+      <div class="scenario-icon">${tree.icon}</div>
+      <div class="scenario-title">${tree.title}</div>
+      <div class="scenario-desc">${tree.desc}</div>
+      <div class="scenario-rule">${tree.ruleRef}</div>
+    </button>
+  `).join('');
+}
+
+function startTree(treeId) {
+  currentTree = TREES[treeId];
+  currentNode = currentTree.root;
+  breadcrumbs = [];
+  document.getElementById('scenario-intro').style.display = 'none';
+  document.getElementById('tree-viewer').style.display = '';
+  document.getElementById('tree-title').textContent = currentTree.icon + ' ' + currentTree.title;
+  renderNode();
+}
+
+function renderNode() {
+  const node = currentTree.nodes[currentNode];
+  const body = document.getElementById('tree-body');
+  const bcWrap = document.getElementById('tree-breadcrumbs');
+
+  let crumbsHTML = `<span class="crumb start" onclick="restartTree()">↺ Start</span>`;
+  breadcrumbs.forEach((bc, i) => {
+    crumbsHTML += `<span class="crumb-sep">›</span>`;
+    crumbsHTML += `<span class="crumb" onclick="jumpToCrumb(${i})">${bc.label}</span>`;
+  });
+  bcWrap.innerHTML = crumbsHTML;
+
+  if (node.type === 'q') {
+    body.innerHTML = `
+      <div class="tree-question">
+        <div class="question-label">Question ${breadcrumbs.length + 1}</div>
+        <div class="question-text">${node.text}</div>
+        <div class="answers">
+          ${node.answers.map((a, i) => `<button class="answer-btn" onclick="selectAnswer(${i})">${a.label}</button>`).join('')}
+        </div>
+      </div>
+    `;
+  } else {
+    body.innerHTML = `
+      <div class="tree-outcome">
+        <div class="outcome-label">Ruling</div>
+        <div class="outcome-result">${node.result}</div>
+        <div class="outcome-detail">${node.detail}</div>
+        <div class="outcome-rules">
+          ${node.rules.map(r => `<span class="outcome-rule">Rule ${r}</span>`).join('')}
+        </div>
+        <button class="restart-tree-btn" onclick="restartTree()">↺ Start Over</button>
+      </div>
+    `;
+  }
+}
+
+function selectAnswer(answerIdx) {
+  const node = currentTree.nodes[currentNode];
+  const chosen = node.answers[answerIdx];
+  breadcrumbs.push({ label: chosen.label, node: currentNode });
+  currentNode = chosen.next;
+  renderNode();
+}
+
+function jumpToCrumb(index) {
+  currentNode = breadcrumbs[index].node;
+  breadcrumbs = breadcrumbs.slice(0, index);
+  renderNode();
+}
+
+function restartTree() {
+  currentNode = currentTree.root;
+  breadcrumbs = [];
+  renderNode();
+}
+
+function exitTree() {
+  currentTree = null;
+  currentNode = null;
+  breadcrumbs = [];
+  renderScenarioList();
+}
+
+/* ========== BOOT ========== */
 buildCategories();
 startSession();
 </script>
