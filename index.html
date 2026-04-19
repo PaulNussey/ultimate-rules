@@ -299,19 +299,6 @@
     flex: 1;
   }
 
-  /* Scenario cards have HTML content with their own typography.
-     Reset the inherited Bebas Neue styling so inline styles can take over. */
-  .card-question:has(strong), .card-question:has(em) {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    letter-spacing: normal;
-    line-height: 1.5;
-  }
-
-  /* Make cards expand for longer scenario content */
-  .card.is-scenario { min-height: 420px; }
-  .card.is-scenario .card-face { min-height: 420px; }
-
   .card-hint {
     font-size: 12px;
     color: var(--muted);
@@ -849,6 +836,523 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(245,166,35,0.4);
   }
+
+  /* ===== SCENARIO TEST MODE ===== */
+  .test-type-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+
+  .test-type-card {
+    background: white;
+    border: 1.5px solid rgba(26,74,46,0.08);
+    border-radius: 14px;
+    padding: 22px 20px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    box-shadow: 0 2px 10px rgba(26,74,46,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .test-type-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--disc);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.25s;
+  }
+
+  .test-type-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--disc);
+    box-shadow: 0 10px 28px rgba(26,74,46,0.15);
+  }
+  .test-type-card:hover::before { transform: scaleY(1); }
+
+  .test-type-icon { font-size: 22px; margin-bottom: 8px; }
+
+  .test-type-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--grass);
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .test-type-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+
+  .test-type-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(26,74,46,0.08);
+    padding-top: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  .test-type-meta .count {
+    color: var(--disc-dark);
+    font-weight: 600;
+  }
+
+  .test-type-meta .best-score {
+    color: var(--grass-light);
+  }
+
+  /* "Mixed" card gets slightly different treatment */
+  .test-type-card.mixed {
+    background: linear-gradient(135deg, var(--grass) 0%, var(--grass-light) 100%);
+    color: white;
+    border-color: transparent;
+  }
+  .test-type-card.mixed .test-type-title { color: white; }
+  .test-type-card.mixed .test-type-desc { color: rgba(232,248,232,0.85); }
+  .test-type-card.mixed .test-type-meta {
+    border-color: rgba(255,255,255,0.15);
+    color: rgba(232,248,232,0.7);
+  }
+  .test-type-card.mixed .test-type-meta .count,
+  .test-type-card.mixed .test-type-meta .best-score { color: var(--disc); }
+  .test-type-card.mixed::before { background: var(--disc); }
+
+  .test-session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .test-session-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1.5px;
+    color: var(--grass);
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .test-progress-wrap { margin-bottom: 18px; }
+  .test-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .test-progress-meta strong { color: var(--grass); }
+
+  .test-question-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 26px;
+    box-shadow: 0 8px 30px rgba(26,74,46,0.1);
+    border: 1px solid rgba(26,74,46,0.08);
+  }
+
+  .test-scenario-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--disc-dark);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .test-narrative {
+    background: rgba(26,74,46,0.04);
+    border-left: 2px solid var(--grass-light);
+    padding: 14px 16px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .test-narrative .step { margin-bottom: 6px; }
+  .test-narrative .step:last-child { margin-bottom: 0; }
+  .test-narrative .step b { color: var(--grass); font-weight: 600; }
+  .test-narrative .step i { color: var(--muted); font-style: normal; }
+
+  .test-prompt {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(20px, 3.5vw, 26px);
+    letter-spacing: 0.5px;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+
+  .test-options { display: flex; flex-direction: column; gap: 8px; }
+
+  .test-option {
+    background: #f7faf7;
+    border: 1.5px solid rgba(26,74,46,0.12);
+    color: var(--ink);
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .test-option:hover:not(:disabled) {
+    border-color: var(--grass);
+    background: white;
+    transform: translateX(3px);
+  }
+
+  .test-option:disabled { cursor: default; transform: none; }
+
+  .test-option.correct {
+    border-color: var(--correct);
+    background: #eef8f2;
+    color: #1d7a43;
+    font-weight: 500;
+  }
+
+  .test-option.wrong {
+    border-color: var(--wrong);
+    background: #fdf0ee;
+    color: #a82622;
+  }
+
+  .test-option .badge {
+    float: right;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin-left: 8px;
+  }
+
+  .test-feedback {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 10px;
+    background: var(--back-bg);
+    color: var(--back-text);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .test-feedback b { color: var(--disc); }
+
+  .test-feedback .feedback-rules {
+    margin-top: 10px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .test-feedback .feedback-rule {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    background: rgba(245,166,35,0.2);
+    color: var(--disc);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .test-next-btn {
+    background: var(--grass);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .test-next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(26,74,46,0.3);
+  }
+
+  /* Results screen */
+  .test-results-screen {
+    background: white;
+    border-radius: 20px;
+    padding: 48px 32px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(26,74,46,0.15);
+    border: 1px solid rgba(26,74,46,0.08);
+  }
+
+  .test-results-emoji {
+    font-size: 72px;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+
+  .test-results-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    letter-spacing: 2px;
+    color: var(--grass);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .test-results-score .divider {
+    color: rgba(26,74,46,0.25);
+    margin: 0 8px;
+  }
+
+  .test-results-pct {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--disc-dark);
+    margin-bottom: 10px;
+  }
+
+  .test-results-grade {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .test-results-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ===== GLOSSARY MODE ===== */
+  .glossary-search-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+
+  .glossary-search {
+    width: 100%;
+    padding: 12px 16px 12px 42px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: white;
+    border: 1.5px solid rgba(26,74,46,0.12);
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.15s;
+    box-shadow: 0 2px 8px rgba(26,74,46,0.05);
+  }
+
+  .glossary-search:focus {
+    border-color: var(--grass);
+    box-shadow: 0 4px 14px rgba(26,74,46,0.12);
+  }
+
+  .glossary-search-wrap::before {
+    content: '🔍';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .glossary-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-top: 8px;
+    padding-left: 4px;
+  }
+
+  .glossary-alphabet {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 20px;
+    padding: 10px 12px;
+    background: rgba(26,74,46,0.05);
+    border-radius: 10px;
+  }
+
+  .alpha-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .alpha-btn:hover:not(:disabled) {
+    background: white;
+    color: var(--grass);
+  }
+
+  .alpha-btn.active {
+    background: var(--grass);
+    color: white;
+  }
+
+  .alpha-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .glossary-section {
+    margin-bottom: 18px;
+    scroll-margin-top: 20px;
+  }
+
+  .glossary-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 34px;
+    letter-spacing: 2px;
+    color: var(--disc);
+    background: var(--grass);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    line-height: 1;
+    box-shadow: 0 4px 14px rgba(26,74,46,0.2);
+  }
+
+  .glossary-term {
+    background: white;
+    border: 1px solid rgba(26,74,46,0.08);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.18s;
+    box-shadow: 0 1px 6px rgba(26,74,46,0.04);
+  }
+
+  .glossary-term:hover {
+    transform: translateX(4px);
+    border-color: var(--disc);
+    box-shadow: 0 4px 16px rgba(26,74,46,0.1);
+  }
+
+  .glossary-term.expanded {
+    background: linear-gradient(to bottom, white 0%, #fafdfb 100%);
+    border-color: var(--grass-light);
+    box-shadow: 0 4px 20px rgba(26,74,46,0.1);
+    transform: none;
+  }
+
+  .glossary-term-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .glossary-term-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: var(--grass);
+    line-height: 1.1;
+  }
+
+  .glossary-term-toggle {
+    color: var(--muted);
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: transform 0.25s;
+  }
+
+  .glossary-term.expanded .glossary-term-toggle {
+    transform: rotate(180deg);
+    color: var(--disc);
+  }
+
+  .glossary-term-definition {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, margin-top 0.3s ease, padding-top 0.3s ease;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink);
+    opacity: 0.9;
+  }
+
+  .glossary-term.expanded .glossary-term-definition {
+    max-height: 800px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(26,74,46,0.08);
+  }
+
+  .glossary-term-definition p {
+    margin-bottom: 8px;
+  }
+  .glossary-term-definition p:last-child { margin-bottom: 0; }
+  .glossary-term-definition strong { color: var(--grass); font-weight: 600; }
+  .glossary-term-definition em { color: var(--disc-dark); font-style: normal; font-weight: 500; }
+
+  .glossary-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+
+  .glossary-empty .big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1.5px;
+    color: var(--grass);
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 500px) {
+    .alpha-btn { width: 26px; height: 26px; font-size: 13px; }
+    .glossary-letter { width: 40px; height: 40px; font-size: 28px; }
+    .glossary-term { padding: 14px 16px; }
+  }
 </style>
 </head>
 <body>
@@ -864,6 +1368,8 @@
 <div class="mode-toggle">
   <button class="mode-btn active" id="mode-flashcards" onclick="setMode('flashcards')">🥏 Flashcards</button>
   <button class="mode-btn" id="mode-scenarios" onclick="setMode('scenarios')">🎯 Scenarios</button>
+  <button class="mode-btn" id="mode-test" onclick="setMode('test')">🧠 Scenario Test</button>
+  <button class="mode-btn" id="mode-glossary" onclick="setMode('glossary')">📖 Glossary</button>
 </div>
 
 <!-- =============================== FLASHCARDS MODE =============================== -->
@@ -957,6 +1463,67 @@
 
 </div>
 <!-- /scenarios-mode -->
+
+<!-- =============================== SCENARIO TEST MODE =============================== -->
+<div id="test-mode" style="display:none; width:100%; max-width:760px; position:relative; z-index:1;">
+
+  <!-- Test picker: list all scenario types -->
+  <div id="test-picker">
+    <div class="scenarios-intro">
+      <strong>Test yourself on decision making.</strong> Pick a scenario type to start a multiple-choice quiz. You'll be walked through a situation and must choose the correct ruling from the options.
+    </div>
+    <div class="test-type-grid" id="test-type-grid"></div>
+  </div>
+
+  <!-- Active test session -->
+  <div id="test-session" style="display:none;">
+    <div class="test-session-header">
+      <div class="test-session-title" id="test-session-title"></div>
+      <button class="tree-back-btn" onclick="exitTest()">← All Tests</button>
+    </div>
+
+    <div class="test-progress-wrap">
+      <div class="test-progress-meta">
+        <span id="test-prog-text">Question 1 of 10</span>
+        <span id="test-prog-score"><strong id="test-score">0</strong> correct</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="test-progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div id="test-body"></div>
+  </div>
+
+  <!-- Test results screen -->
+  <div id="test-results" style="display:none;">
+    <div class="test-results-screen">
+      <div class="test-results-emoji" id="test-results-emoji">🎯</div>
+      <div class="test-results-score">
+        <span id="test-final-correct">0</span><span class="divider">/</span><span id="test-final-total">0</span>
+      </div>
+      <div class="test-results-pct" id="test-results-pct">0%</div>
+      <div class="test-results-grade" id="test-results-grade">Nice work!</div>
+      <div class="test-results-actions">
+        <button class="restart-btn" onclick="retryCurrentTest()">Try Again</button>
+        <button class="tree-back-btn" style="padding:14px 28px;" onclick="exitTest()">Back to Tests</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- /test-mode -->
+
+<!-- =============================== GLOSSARY MODE =============================== -->
+<div id="glossary-mode" style="display:none; width:100%; max-width:760px; position:relative; z-index:1;">
+  <div class="glossary-search-wrap">
+    <input type="text" id="glossary-search" class="glossary-search" placeholder="Search terms…" oninput="filterGlossary()">
+    <div class="glossary-count" id="glossary-count"></div>
+  </div>
+
+  <div class="glossary-alphabet" id="glossary-alphabet"></div>
+
+  <div class="glossary-list" id="glossary-list"></div>
+</div>
+<!-- /glossary-mode -->
 
 <div class="dialog-overlay" id="reset-dialog">
   <div class="dialog">
@@ -1389,10 +1956,9 @@ const TREES = {
   },
 };
 
-/* ========== SCENARIO CARDS (auto-generated from decision trees) ==========
-   Every path through every tree becomes a flashcard in the "Scenarios" category.
-   Front = setup narrative + "What's the ruling?"
-   Back = correct ruling + detail + rule refs */
+/* ========== SCENARIO CARD GENERATOR ==========
+   Extract all paths from decision trees for the Scenario Test mode.
+   These do NOT go into the flashcard deck — they live in their own mode. */
 
 function extractPaths(tree, nodeId, choices, out) {
   const node = tree.nodes[nodeId];
@@ -1405,40 +1971,30 @@ function extractPaths(tree, nodeId, choices, out) {
   }
 }
 
-function buildScenarioCards() {
-  const cards = [];
+function buildScenariosByTree() {
+  const byTree = {};
   for (const treeId in TREES) {
     const tree = TREES[treeId];
     const paths = [];
     extractPaths(tree, tree.root, [], paths);
-    paths.forEach((path, i) => {
-      const narrative = path.choices
-        .map((c, idx) => `<strong>Q${idx + 1}:</strong> ${c.q}<br><em style="color:rgba(26,74,46,0.7);">&rarr; ${c.a}</em>`)
-        .join('<br><br>');
-      const frontText = `<div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;color:var(--muted);letter-spacing:0;text-transform:none;line-height:1.55;margin-bottom:14px;">
-          <strong style="color:var(--grass);font-weight:600;display:block;margin-bottom:8px;text-transform:uppercase;font-size:11px;letter-spacing:1.5px;">Scenario: ${tree.title}</strong>
-          ${narrative}
-        </div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,3.8vw,28px);letter-spacing:0.5px;color:var(--ink);line-height:1.2;">What is the correct ruling?</div>`;
-      const rulesHTML = path.outcome.rules.map(r => `<span class="rule-ref" style="margin-right:6px;">Rule ${r}</span>`).join('');
-      const backText = `<strong style="font-size:18px;display:block;margin-bottom:10px;">${path.outcome.result}</strong>
-        ${path.outcome.detail}
-        <div style="margin-top:14px;">${rulesHTML}</div>`;
-
-      cards.push({
-        id: `scn::${treeId}::${path.outcomeId}::${i}`,
-        cat: 'Scenarios',
-        q: frontText,
-        a: backText,
-        isScenario: true,
-      });
-    });
+    byTree[treeId] = paths.map((path, i) => ({
+      id: `scn::${treeId}::${path.outcomeId}::${i}`,
+      treeId,
+      treeTitle: tree.title,
+      treeIcon: tree.icon,
+      choices: path.choices,
+      outcomeId: path.outcomeId,
+      outcome: path.outcome,
+      allOutcomes: Object.entries(tree.nodes)
+        .filter(([_, n]) => n.type === 'o')
+        .map(([id, n]) => ({ id, ...n })),
+    }));
   }
-  return cards;
+  return byTree;
 }
 
-const SCENARIO_CARDS = buildScenarioCards();
-ALL_CARDS.push(...SCENARIO_CARDS);
+const SCENARIOS_BY_TREE = buildScenariosByTree();
+const ALL_SCENARIOS = Object.values(SCENARIOS_BY_TREE).flat();
 
 /* ========== SRS (simplified SM-2) ========== */
 const STORAGE_KEY = 'wfdf-flashcards-v1';
@@ -1616,8 +2172,7 @@ function showCard() {
   const p = getProg(card.id);
   document.getElementById('front-tag').textContent = card.cat;
   document.getElementById('back-tag').textContent = card.cat;
-  document.getElementById('front-q')[card.isScenario ? 'innerHTML' : 'textContent'] = card.q;
-  document.getElementById('card').classList.toggle('is-scenario', !!card.isScenario);
+  document.getElementById('front-q').textContent = card.q;
   document.getElementById('back-a').innerHTML = card.a;
   document.getElementById('card-num').textContent = `${current + 1} / ${deck.length}`;
 
@@ -1740,7 +2295,9 @@ function confirmReset() { document.getElementById('reset-dialog').classList.add(
 function closeResetDialog() { document.getElementById('reset-dialog').classList.remove('show'); }
 function doReset() {
   state = { cards: {}, lastStudyDate: null, streak: 0, totalReviews: 0 };
+  testScores = {};
   saveState();
+  saveTestScores();
   closeResetDialog();
   buildCategories();
   startSession();
@@ -1754,9 +2311,15 @@ let breadcrumbs = [];
 function setMode(mode) {
   document.getElementById('mode-flashcards').classList.toggle('active', mode === 'flashcards');
   document.getElementById('mode-scenarios').classList.toggle('active', mode === 'scenarios');
+  document.getElementById('mode-test').classList.toggle('active', mode === 'test');
+  document.getElementById('mode-glossary').classList.toggle('active', mode === 'glossary');
   document.getElementById('flashcards-mode').style.display = mode === 'flashcards' ? 'contents' : 'none';
   document.getElementById('scenarios-mode').style.display = mode === 'scenarios' ? '' : 'none';
+  document.getElementById('test-mode').style.display = mode === 'test' ? '' : 'none';
+  document.getElementById('glossary-mode').style.display = mode === 'glossary' ? '' : 'none';
   if (mode === 'scenarios') renderScenarioList();
+  if (mode === 'test') renderTestPicker();
+  if (mode === 'glossary') renderGlossary();
 }
 
 function renderScenarioList() {
@@ -1845,6 +2408,414 @@ function exitTree() {
   currentNode = null;
   breadcrumbs = [];
   renderScenarioList();
+}
+
+/* ========== SCENARIO TEST ========== */
+const TEST_SCORES_KEY = 'wfdf-test-scores-v1';
+let testScores = loadTestScores();
+
+let currentTestType = null;       // tree id or 'mixed'
+let testQueue = [];               // array of scenario path objects
+let testIdx = 0;
+let testCorrect = 0;
+let testAnswered = false;
+let testLastOptions = null;
+
+function loadTestScores() {
+  try {
+    const raw = localStorage.getItem(TEST_SCORES_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return {};   // { treeId: { best: n, total: n, attempts: n } }
+}
+
+function saveTestScores() {
+  try { localStorage.setItem(TEST_SCORES_KEY, JSON.stringify(testScores)); } catch (e) {}
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderTestPicker() {
+  document.getElementById('test-picker').style.display = '';
+  document.getElementById('test-session').style.display = 'none';
+  document.getElementById('test-results').style.display = 'none';
+
+  const grid = document.getElementById('test-type-grid');
+  const treeIds = Object.keys(TREES);
+
+  // Mixed test first
+  const mixedBest = testScores.mixed;
+  const mixedHTML = `
+    <button class="test-type-card mixed" onclick="startTest('mixed')">
+      <div class="test-type-icon">🎲</div>
+      <div class="test-type-title">Mixed Test</div>
+      <div class="test-type-desc">Random questions pulled from every scenario type. The ultimate ruling challenge.</div>
+      <div class="test-type-meta">
+        <span><span class="count">${Math.min(15, ALL_SCENARIOS.length)}</span> QUESTIONS</span>
+        <span class="best-score">${mixedBest ? `BEST ${mixedBest.best}/${mixedBest.total}` : 'NEW'}</span>
+      </div>
+    </button>`;
+
+  const typesHTML = treeIds.map(treeId => {
+    const tree = TREES[treeId];
+    const paths = SCENARIOS_BY_TREE[treeId];
+    const best = testScores[treeId];
+    const testLength = Math.min(paths.length, 10);
+    return `
+      <button class="test-type-card" onclick="startTest('${treeId}')">
+        <div class="test-type-icon">${tree.icon}</div>
+        <div class="test-type-title">${tree.title}</div>
+        <div class="test-type-desc">${tree.desc}</div>
+        <div class="test-type-meta">
+          <span><span class="count">${testLength}</span> QUESTIONS</span>
+          <span class="best-score">${best ? `BEST ${best.best}/${best.total}` : 'NEW'}</span>
+        </div>
+      </button>`;
+  }).join('');
+
+  grid.innerHTML = mixedHTML + typesHTML;
+}
+
+function startTest(testType) {
+  currentTestType = testType;
+
+  let pool;
+  let length;
+  if (testType === 'mixed') {
+    pool = ALL_SCENARIOS;
+    length = Math.min(15, ALL_SCENARIOS.length);
+  } else {
+    pool = SCENARIOS_BY_TREE[testType];
+    length = Math.min(pool.length, 10);
+  }
+
+  testQueue = shuffleArray(pool).slice(0, length);
+  testIdx = 0;
+  testCorrect = 0;
+  testAnswered = false;
+
+  document.getElementById('test-picker').style.display = 'none';
+  document.getElementById('test-session').style.display = '';
+  document.getElementById('test-results').style.display = 'none';
+
+  const title = testType === 'mixed' ? '🎲 Mixed Test' : `${TREES[testType].icon} ${TREES[testType].title}`;
+  document.getElementById('test-session-title').textContent = title;
+
+  renderTestQuestion();
+}
+
+function renderTestQuestion() {
+  if (testIdx >= testQueue.length) {
+    showTestResults();
+    return;
+  }
+
+  const scenario = testQueue[testIdx];
+  testAnswered = false;
+
+  // Update progress
+  const total = testQueue.length;
+  const pct = Math.round((testIdx / total) * 100);
+  document.getElementById('test-prog-text').textContent = `Question ${testIdx + 1} of ${total}`;
+  document.getElementById('test-score').textContent = testCorrect;
+  document.getElementById('test-progress-fill').style.width = pct + '%';
+
+  // Build options: correct + 3 distractors from the same tree
+  const distractors = scenario.allOutcomes
+    .filter(o => o.id !== scenario.outcomeId)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+
+  const options = shuffleArray([
+    { id: scenario.outcomeId, result: scenario.outcome.result, correct: true },
+    ...distractors.map(d => ({ id: d.id, result: d.result, correct: false })),
+  ]);
+  testLastOptions = options;
+
+  // Render narrative
+  const narrativeHTML = scenario.choices.map((c, i) =>
+    `<div class="step"><b>Q${i + 1}:</b> ${c.q} <i>&rarr; ${c.a}</i></div>`
+  ).join('');
+
+  document.getElementById('test-body').innerHTML = `
+    <div class="test-question-card">
+      <div class="test-scenario-label">Scenario · ${scenario.treeTitle}</div>
+      <div class="test-narrative">${narrativeHTML}</div>
+      <div class="test-prompt">What is the correct ruling?</div>
+      <div class="test-options" id="test-options">
+        ${options.map((opt, i) => `
+          <button class="test-option" data-idx="${i}" onclick="answerTest(${i})">${opt.result}</button>
+        `).join('')}
+      </div>
+      <div id="test-feedback-wrap"></div>
+    </div>
+  `;
+}
+
+function answerTest(idx) {
+  if (testAnswered) return;
+  testAnswered = true;
+
+  const scenario = testQueue[testIdx];
+  const picked = testLastOptions[idx];
+  const wasCorrect = picked.correct;
+  if (wasCorrect) testCorrect += 1;
+
+  // Mark options
+  const btns = document.querySelectorAll('.test-option');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    const opt = testLastOptions[i];
+    if (opt.correct) {
+      b.classList.add('correct');
+      b.innerHTML = opt.result + ' <span class="badge">✓ CORRECT</span>';
+    } else if (i === idx) {
+      b.classList.add('wrong');
+      b.innerHTML = opt.result + ' <span class="badge">YOUR PICK</span>';
+    }
+  });
+
+  // Show feedback
+  const o = scenario.outcome;
+  const rulesHTML = o.rules.map(r => `<span class="feedback-rule">Rule ${r}</span>`).join('');
+  const isLast = testIdx === testQueue.length - 1;
+  document.getElementById('test-feedback-wrap').innerHTML = `
+    <div class="test-feedback">
+      <b>${o.result}</b><br>
+      ${o.detail}
+      <div class="feedback-rules">${rulesHTML}</div>
+    </div>
+    <button class="test-next-btn" onclick="nextTestQuestion()">
+      ${isLast ? 'See Results' : 'Next Question'} →
+    </button>
+  `;
+
+  // Update score display
+  document.getElementById('test-score').textContent = testCorrect;
+}
+
+function nextTestQuestion() {
+  testIdx += 1;
+  renderTestQuestion();
+}
+
+function showTestResults() {
+  document.getElementById('test-session').style.display = 'none';
+  document.getElementById('test-results').style.display = '';
+
+  const total = testQueue.length;
+  const pct = Math.round((testCorrect / total) * 100);
+
+  // Save best score
+  const prev = testScores[currentTestType];
+  if (!prev || testCorrect > prev.best || (testCorrect === prev.best && total > prev.total)) {
+    testScores[currentTestType] = {
+      best: testCorrect,
+      total,
+      attempts: (prev ? prev.attempts : 0) + 1,
+    };
+  } else {
+    testScores[currentTestType] = {
+      ...prev,
+      attempts: prev.attempts + 1,
+    };
+  }
+  saveTestScores();
+
+  // Determine emoji and grade
+  let emoji, grade;
+  if (pct === 100) { emoji = '🏆'; grade = 'Perfect score! You know your rules.'; }
+  else if (pct >= 90) { emoji = '🔥'; grade = 'Excellent. Rules mastery on display.'; }
+  else if (pct >= 75) { emoji = '👍'; grade = 'Solid understanding. Keep practicing.'; }
+  else if (pct >= 50) { emoji = '📚'; grade = 'Getting there. Review the scenarios and try again.'; }
+  else { emoji = '💪'; grade = 'Good effort! Spend some time in Scenarios mode before retesting.'; }
+
+  document.getElementById('test-results-emoji').textContent = emoji;
+  document.getElementById('test-final-correct').textContent = testCorrect;
+  document.getElementById('test-final-total').textContent = total;
+  document.getElementById('test-results-pct').textContent = pct + '%';
+  document.getElementById('test-results-grade').textContent = grade;
+}
+
+function retryCurrentTest() {
+  startTest(currentTestType);
+}
+
+function exitTest() {
+  currentTestType = null;
+  testQueue = [];
+  testIdx = 0;
+  testCorrect = 0;
+  renderTestPicker();
+}
+
+/* ========== GLOSSARY ==========
+   All definitions pulled from the WFDF Rules 2025-2028 "Definitions" section (pp. 15-16).
+   Sorted alphabetically, grouped by first letter. */
+
+const GLOSSARY = [
+  { term: "Act of throwing", def: "See <em>throwing motion</em>." },
+  { term: "Affect the play", def: "A breach or call <strong>affects the play</strong> if it is reasonable to assume that the outcome of the specific play may have been meaningfully different had the breach or call not occurred." },
+  { term: "Attacking end zone", def: "The end zone in which the team in question is currently attempting to score." },
+  { term: "Best perspective", def: "The most complete viewpoint available by a player that includes the relative position of the disc, ground, players and line markers involved in the play." },
+  { term: "Call", def: `A clearly communicated statement that a foul, infraction, violation, turnover, or injury has occurred. The following terms may be used: <em>Foul, Travel, specific name of Marking Infraction, Violation (or specific name of Violation), specific name of turnovers, Technical,</em> and <em>Injury</em>.` },
+  { term: "Catch", def: `A <strong>non-spinning disc trapped between at least two body parts</strong>.<p>If a player initially catches a pass and then, prior to establishing possession, they do not maintain the catch (meaning the non-spinning disc stays trapped between at least two body parts), that initial catch is deemed to have ended.</p>` },
+  { term: "Central zone", def: "The area of the playing field including the <strong>goal lines</strong> but excluding the end zones and the perimeter lines." },
+  { term: "Defending end zone", def: "The end zone in which the team in question is currently attempting to prevent the opposition from scoring." },
+  { term: "Defensive player", def: "Any player whose team is not in possession of the disc." },
+  { term: "End zone", def: "One of the two areas at the end of the playing field where teams can score a goal by catching the disc there." },
+  { term: "Goal line", def: "The line separating the central zone from each end zone. <strong>It is not part of the end zone.</strong>" },
+  { term: "Ground", def: "All substantial solid objects, including grass, marker cones, equipment, water, trees, fences, walls and non-players — but <strong>excluding</strong> all players and their worn clothing, airborne particles, and precipitation." },
+  { term: "Ground contact", def: "All player contact with the ground directly related to a specific event or manoeuvre, including landing or recovery after being off-balance (e.g., jumping, diving, leaning, or falling)." },
+  { term: "Guarding", def: "A defender is <strong>guarding</strong> an offensive player when they are within <strong>three metres</strong> of that offensive player and are primarily focused on and reacting to that offensive player." },
+  { term: "Interception", def: "When a player on the defensive team establishes possession of a throw by a player on the offensive team." },
+  { term: "Legitimate position", def: "The stationary or moving position established by a player that is not in breach of any rules." },
+  { term: "Line", def: "A boundary defining the playing areas. On an unlined field, the boundary is defined as an imaginary line between two field markers with the thickness of said markers. <strong>Line segments are not extrapolated beyond the defining markers.</strong>" },
+  { term: "Making a play on the disc", def: "When the disc is in the air and a player is attempting to make contact with the disc in any way (e.g. to catch it or block it). This includes the process of running towards the place they expect to make contact with the disc." },
+  { term: "Marker", def: "The defensive player who may call the stall count on the thrower." },
+  { term: "Minor contact", def: `Contact that involves <strong>minimal physical force and does not alter the movements or position</strong> of another player.<p>Contact with an opponent's extended arms or hands that are about to, or already are, contacting the disc, or contact to the thrower's hand during the throwing motion, is <em>not</em> considered to be minor contact.</p>` },
+  { term: "Non-player", def: "Any person, including a team member, who is not currently a player." },
+  { term: "Offensive player", def: "A player whose team is in possession of the disc." },
+  { term: "Out-of-bounds (OB)", def: "Everything that is not part of the playing field, including the perimeter lines." },
+  { term: "Perimeter lines", def: "Lines separating the central zone or end zone from the out-of-bounds area. <strong>They are not part of the playing field.</strong>" },
+  { term: "Pivot", def: `When the thrower moves in any direction while keeping one part of their body in constant contact with a specific point on the ground called the <strong>pivot point</strong>.<p>A thrower establishes a pivot point by placing, or keeping, a particular part of their body at a specific point, which they intend to use as their pivot point.</p><p>If a thrower has multiple options for a pivot point, the pivot point is not determined until they pivot.</p>` },
+  { term: "Pivot Location", def: "The point on the playing field where the thrower is required to establish a pivot point after a turnover, after the pull, after a time-out, after leaving the central zone, or where a pivot point has already been established." },
+  { term: "Play", def: "The time after the pull has commenced and prior to the scoring of a goal. Play may further stop due to a call, in which case play is restarted with a check." },
+  { term: "Player", def: "The people who are actually participating in the current point of play." },
+  { term: "Playing Field", def: "The area including the central zone and the end zones, but <strong>excluding the perimeter lines</strong>." },
+  { term: "Possession of the disc", def: `A player establishes possession of a pass when:<p>• they catch a pass and then they maintain that catch for <strong>more than one noticeable instant</strong>; and<br>• they maintain the catch throughout all ground contact related to the catch, or until they throw the disc.</p><p>A player can also establish possession when a disc that has already hit the ground is picked up, or is given to them, after a turnover, pull, or stoppage.</p><p>Once a player has established possession, they may change their grip on the disc — that does not affect their possession, as long as they maintain contact.</p><p>A disc in the possession of a player, or caught by a player, is considered part of that player. The team whose player is in possession (or whose players may pick up the disc) is considered the <strong>team in possession</strong>.</p>` },
+  { term: "Pre-stall", def: "A warning regarding time limits to resume play, issued by giving warnings at <strong>20, 10, and 5 seconds</strong> (as applicable)." },
+  { term: "Pull", def: "The throw by the defence to the offence that starts play at the beginning of a half or after a goal. <strong>The pull is not considered a legal pass.</strong>" },
+  { term: "Receivers", def: "All offensive players other than the thrower." },
+  { term: "Spirit Stoppage", def: "A stoppage to discuss issues related to Spirit of the Game." },
+  { term: "Stoppage of play", def: "Any halting of play due to a foul, violation, discussion, contested call, injury, or time-out, that requires a check to restart play." },
+  { term: "Throw", def: `A disc in flight following any throwing motion — including after a fake attempt and an intentionally dropped disc — that results in loss of contact between the thrower and the disc.<p>A <strong>pass</strong> is the equivalent of a throw.</p>` },
+  { term: "Thrower", def: "The offensive player in possession of the disc, or the player who has just thrown the disc prior to when the result of the throw has been determined." },
+  { term: "Throwing motion", def: "The motion that transfers momentum from the thrower to the disc in the direction of flight and results in a throw. <strong>Pivots and wind-ups are not part of the act of throwing.</strong>" },
+  { term: "Turnover", def: "Any event resulting in a change of the team in possession. <strong>A turnover is not considered a violation.</strong>" },
+  { term: "Where the disc stops", def: "The location where a player establishes possession, the disc comes to rest naturally, or where the disc is stopped from rolling or sliding." },
+];
+
+let glossaryFilter = '';
+let glossaryActiveLetter = null;
+
+function groupGlossaryByLetter(terms) {
+  const groups = {};
+  for (const t of terms) {
+    const letter = t.term.charAt(0).toUpperCase();
+    if (!groups[letter]) groups[letter] = [];
+    groups[letter].push(t);
+  }
+  return groups;
+}
+
+function renderGlossary() {
+  glossaryFilter = '';
+  glossaryActiveLetter = null;
+  document.getElementById('glossary-search').value = '';
+  filterGlossary();
+}
+
+function filterGlossary() {
+  const search = document.getElementById('glossary-search').value.trim().toLowerCase();
+  glossaryFilter = search;
+
+  // Filter terms
+  const filtered = search
+    ? GLOSSARY.filter(t =>
+        t.term.toLowerCase().includes(search) ||
+        t.def.toLowerCase().includes(search))
+    : GLOSSARY;
+
+  // Update count
+  const countEl = document.getElementById('glossary-count');
+  if (search) {
+    countEl.textContent = `${filtered.length} match${filtered.length === 1 ? '' : 'es'} for "${search}"`;
+  } else {
+    countEl.textContent = `${GLOSSARY.length} terms from the WFDF ruleset`;
+  }
+
+  // Build alphabet nav
+  const allLetters = [...new Set(GLOSSARY.map(t => t.term.charAt(0).toUpperCase()))].sort();
+  const availableLetters = new Set(filtered.map(t => t.term.charAt(0).toUpperCase()));
+  const alphaWrap = document.getElementById('glossary-alphabet');
+  alphaWrap.innerHTML = allLetters.map(letter => {
+    const disabled = !availableLetters.has(letter);
+    const active = glossaryActiveLetter === letter ? 'active' : '';
+    return `<button class="alpha-btn ${active}" ${disabled ? 'disabled' : ''} onclick="scrollToGlossaryLetter('${letter}')">${letter}</button>`;
+  }).join('');
+
+  // Render list
+  const listEl = document.getElementById('glossary-list');
+  if (filtered.length === 0) {
+    listEl.innerHTML = `
+      <div class="glossary-empty">
+        <div class="big">No matches</div>
+        <div>Try a different search term.</div>
+      </div>
+    `;
+    return;
+  }
+
+  const groups = groupGlossaryByLetter(filtered);
+  listEl.innerHTML = Object.keys(groups).sort().map(letter => {
+    const items = groups[letter].map((t, i) => {
+      const termId = `glossary-${letter}-${i}`;
+      return `
+        <div class="glossary-term" id="${termId}" onclick="toggleGlossaryTerm(this)">
+          <div class="glossary-term-header">
+            <div class="glossary-term-name">${highlightSearch(t.term, search)}</div>
+            <div class="glossary-term-toggle">▼</div>
+          </div>
+          <div class="glossary-term-definition">${highlightSearch(t.def, search)}</div>
+        </div>`;
+    }).join('');
+    return `
+      <div class="glossary-section" id="glossary-letter-${letter}">
+        <div class="glossary-letter">${letter}</div>
+        ${items}
+      </div>`;
+  }).join('');
+
+  // If there's a search, auto-expand all matches
+  if (search) {
+    document.querySelectorAll('.glossary-term').forEach(el => el.classList.add('expanded'));
+  }
+}
+
+function highlightSearch(text, search) {
+  if (!search) return text;
+  // Escape regex special chars
+  const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`(${escaped})`, 'gi');
+  // Split text on HTML tags to avoid highlighting inside them
+  return text.replace(/(<[^>]+>|[^<]+)/g, (chunk) => {
+    if (chunk.startsWith('<')) return chunk;
+    return chunk.replace(re, '<mark style="background:rgba(245,166,35,0.35);color:inherit;padding:0 2px;border-radius:2px;">$1</mark>');
+  });
+}
+
+function toggleGlossaryTerm(el) {
+  el.classList.toggle('expanded');
+}
+
+function scrollToGlossaryLetter(letter) {
+  glossaryActiveLetter = letter;
+  // Update active state on alphabet
+  document.querySelectorAll('.alpha-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === letter);
+  });
+  const section = document.getElementById(`glossary-letter-${letter}`);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 /* ========== BOOT ========== */
